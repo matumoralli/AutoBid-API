@@ -6,8 +6,4 @@ module.exports = {
   list: async () => {
     return cars;
   },
-
-  create: async () => {
-
-  },
 };

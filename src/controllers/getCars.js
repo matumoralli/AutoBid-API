@@ -1,7 +1,7 @@
-const Characters = require("../data");
+const Cars = require("../data/cars");
 const { response } = require("../utils");
 
 module.exports = async (req, res) => {
-  const characters = await Characters.list();
-  response(res, 200, characters);
+  const cars = await Cars.list();
+  response(res, 200, cars);
 };

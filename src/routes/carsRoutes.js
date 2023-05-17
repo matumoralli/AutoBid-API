@@ -1,10 +1,10 @@
-const { Router } = require("express");
+const router = require("express").Router();
 const controllers = require("../controllers");
 const middlewares = require("../middlewares");
 
-const router = Router();
-
 router.get("/", controllers.getCars);
 
-
 module.exports = router;
+
+
+

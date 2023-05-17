@@ -10,7 +10,8 @@ server.use(morgan("dev"));
 server.use(express.json());
 server.use(cors());
 
-server.use("/cars", require("./routes"));
+server.use("/cars", require("./routes/carsRoutes"));
+server.use("/users", require("./routes/usersRoutes"));
 
 server.use("*", (req, res) => {
   res.status(404).send({
@@ -18,6 +19,7 @@ server.use("*", (req, res) => {
     message: "Not Found",
   });
 });
+
 
 server.use((err, req, res, next) => {
   res.status(err.statusCode || 500).send({

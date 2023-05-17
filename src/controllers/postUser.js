@@ -1,14 +1,13 @@
 const { response } = require("../utils");
-const { User } = require("../db");
+const { User } = require("../models");
 
 module.exports = async (req, res) => {
   const { name, email, password } = req.body;
+  console.log(name, email, password);
   const newUser = await User.create({
     name,
     email,
     password,
-    isActive: true,
-    isAdmin: false,
   });
 
   response(res, 201, newUser);

@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
+const { conn } = require("../db.js");
 
-module.exports = (sequelize) => {
-  sequelize.define("user", {
+module.exports = conn.define("User", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -20,5 +20,14 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+    },
+    isAdmin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   });
-};

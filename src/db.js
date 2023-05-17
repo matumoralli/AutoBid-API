@@ -3,11 +3,11 @@ const { Sequelize } = require("sequelize");
 const { DB_USER, DB_PASSWORD, DB_DATABASE } = process.env;
 
 const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
-  host: 'localhost',
+  host: "localhost",
   port: 5432,
-  dialect: 'postgres',
-  // logging: (...msg) => console.log(msg),
-})
+  dialect: "postgres",
+  logging: (...msg) => console.log(msg),
+});
 
 // async function test () {
 //   sequelize.authenticate().then(() => {
@@ -19,3 +19,9 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
 
 // test()
 
+// sequelize.models = User
+
+
+module.exports = {
+  conn: sequelize,
+};

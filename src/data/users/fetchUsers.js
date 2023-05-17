@@ -1,4 +1,4 @@
-const { User } = require("../../db");
+const { User } = require("../../models");
 
 module.exports = async function () {
   try {

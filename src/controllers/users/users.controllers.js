@@ -14,4 +14,13 @@ async function postUser(req, res) {
   else throw new ClientError("Error creating user", 404);
 }
 
-module.exports = { getUsers, postUser };
+async function banUser(req, res) {
+  const banned = await usersServices.ban(req.body.userId);//error
+  if(banned.isActive) {
+    response(res, 200, "user unbanned succesfully")
+  } else if (!banned.isActive) {
+    response(res, 200, "user banned succesfully")
+  } else throw new ClientError("Error changing user status", 404);
+}
+
+module.exports = { getUsers, postUser, banUser };

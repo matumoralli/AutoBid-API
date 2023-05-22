@@ -4,7 +4,8 @@ const { conn } = require("../db.js");
 module.exports = conn.define('auction', {
     id:{
         type: UUID,
-        defaultValue: UUIDV4
+        defaultValue: UUIDV4,
+        primaryKey: true
     },
     minPrice:{
         type: INTEGER,

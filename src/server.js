@@ -12,6 +12,9 @@ server.use(cors());
 
 server.use("/cars", require("./routes/carsRoutes"));
 server.use("/users", require("./routes/usersRoutes"));
+server.use("/auctions", require("./routes/auctionsRoutes"));
+server.use("/replies", require("./routes/repliesRoutes"));
+server.use("/comments", require("./routes/commentsRoutes"));
 
 server.use("*", (req, res) => {
   res.status(404).send({
@@ -19,6 +22,8 @@ server.use("*", (req, res) => {
     message: "Not Found",
   });
 });
+
+
 
 
 server.use((err, req, res, next) => {

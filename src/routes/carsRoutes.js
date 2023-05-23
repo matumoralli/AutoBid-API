@@ -7,6 +7,8 @@ const checkScopes = requiredScopes('access:admin');
 
 router.get("/", controllers.getCars);
 
+router.post("/", controllers.postCar);
+
 module.exports = router;
 
 

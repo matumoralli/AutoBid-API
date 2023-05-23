@@ -67,7 +67,7 @@ module.exports = conn.define('carDetail', {
         type: TEXT,
         allowNull:false
     },
-    knownkFlaws:{
+    knownFlaws:{
         type: TEXT,
         allowNull:false
     },
@@ -83,4 +83,4 @@ module.exports = conn.define('carDetail', {
         type: BOOLEAN,
         defaultValue:false
     }
-})
+});

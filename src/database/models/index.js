@@ -5,4 +5,7 @@ module.exports = {
   Comment: require('./Comment.model'),
   Reply: require('./Reply.model'),
   User: require('./users.model'),
+  Comment: require('./Comment.model'),
+  Auction: require('./Auction.model'),
+  Reply: require('./Reply.model')
 }

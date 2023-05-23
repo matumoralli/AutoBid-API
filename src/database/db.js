@@ -20,8 +20,8 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
 // test()
 
 // sequelize.models = User
-console.log(sequelize.models)
-
 module.exports = {
   conn: sequelize,
 };
+
+

@@ -1,7 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+
 
 const server = express();
 
@@ -15,6 +17,8 @@ server.use("/users", require("./routes/usersRoutes"));
 server.use("/auctions", require("./routes/auctionsRoutes"));
 server.use("/replies", require("./routes/repliesRoutes"));
 server.use("/comments", require("./routes/commentsRoutes"));
+
+
 
 server.use("*", (req, res) => {
   res.status(404).send({

@@ -1,5 +1,5 @@
 const server = require("./src/server");
-const {conn} = require("./src/database/db");
+const { conn } = require("./src/database/db");
 
 const PORT = 8000;
 
@@ -15,6 +15,6 @@ Reply.belongsTo(Comment);
 
 conn.sync({ force: false }).then(() => {
   server.listen(PORT, () => {
-    console.log('Server listening at', PORT); 
+    console.log("Server listening at", PORT);
   });
 });

@@ -1,10 +1,7 @@
-const { auth } = require("express-oauth2-jwt-bearer");
-const { AUDIENCE, ISSUER_BASE_URL } = process.env;
+const { auth } = require('express-oauth2-jwt-bearer');
 
-// Authorization middleware. When used, the Access Token must
-// exist and be verified against the Auth0 JSON Web Key Set.
-module.exports = auth({
-    audience: AUDIENCE,
-    issuerBaseURL: ISSUER_BASE_URL,
-    tokenSigningAlg: 'RS256'
-  });
+module.exports =  auth({
+  audience: process.env.JWT_CHECK_AUDIENCE,
+  issuerBaseURL: process.env.ISSUER_BASE_URL,
+  tokenSigningAlg: 'RS256'
+});

@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { AUDIENCE, ISSUER_BASE_URL } = process.env;
+const { TOKEN_URL, CLIENT_ID,  CLIENT_SECRET, AUTH0_HELPER_AUDIENCE } = process.env;
 
 
 async function auth0Helper(userID, action, data) {
@@ -7,9 +7,10 @@ async function auth0Helper(userID, action, data) {
 
   const requestAccessToken = {
     method: "POST",
-    url: `${ISSUER_BASE_URL}/oauth/token`,
+    url: `${TOKEN_URL}`,
     headers: { 'content-type': 'application/json' },
-    body: `{"client_id":"SkGsvsrmTSKJT8Dp5U8B7ax1kufX3mSW","client_secret":"0dBJDeIwY25y04mTQIlo7cD9KtzztghB7GvhEtLOIKg4L8tV7jv6K6N7NZJ4WXfM","audience":"${AUDIENCE}","grant_type":"client_credentials"}` };
+    body: `{"client_id":"${CLIENT_ID}","client_secret":"${CLIENT_SECRET}","audience":"${AUTH0_HELPER_AUDIENCE}","grant_type":"client_credentials"}`
+  };
 
   await axios(requestAccessToken)
     .then(async function (response) {

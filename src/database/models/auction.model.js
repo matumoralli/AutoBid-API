@@ -1,4 +1,4 @@
-const { STRING, UUID, UUIDV4, INTEGER } = require('sequelize')
+const { UUID, UUIDV4, INTEGER, ENUM } = require('sequelize')
 const { conn } = require("../db.js");
 
 module.exports = conn.define('auction', {
@@ -12,7 +12,7 @@ module.exports = conn.define('auction', {
         defaultValue: 0
     },
     sellerType:{
-        type: STRING,
+        type: ENUM("Dealer", "Private party"),
         allowNull:false
     }
 })

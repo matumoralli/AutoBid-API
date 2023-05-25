@@ -19,8 +19,30 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
 
 // test()
 
-// sequelize.models = User
-console.log(sequelize.models)
+const {Auction, Bid, CarDetail, Comment, Reply, User} = sequelize.models
+
+
+Auction.belongsTo(User);
+Auction.hasMany(Comment);
+Auction.hasOne(CarDetail);
+Auction.hasMany(Bid);
+Bid.belongsTo(User);
+Bid.belongsTo(Auction);
+Comment.belongsTo(Auction);
+Comment.belongsTo(User);
+Comment.hasMany(Reply);
+CarDetail.belongsTo(Auction);
+CarDetail.belongsTo(User)
+Reply.belongsTo(Comment);
+Reply.belongsTo(User);
+User.hasMany(Bid);
+User.hasMany(Comment);
+User.hasMany(Reply);
+User.hasMany(Auction);
+User.hasMany(CarDetail);
+
+
+
 
 module.exports = {
   conn: sequelize,

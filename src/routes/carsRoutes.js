@@ -7,4 +7,6 @@ const middlewares = require("../middlewares");
 
 router.get("/", controllers.getCars);
 
+router.post("/", controllers.postCar);
+
 module.exports = router;

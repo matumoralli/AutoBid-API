@@ -10,5 +10,5 @@ module.exports = conn.define('Reply', {
     content:{
         type:TEXT,
         allowNull: false
-    }
+    },
 })

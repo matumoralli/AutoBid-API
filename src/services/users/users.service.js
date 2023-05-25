@@ -20,4 +20,27 @@ async function createUser ( { name, email, password } ) {
   }
 };
 
-module.exports = {fetchUsers, createUser}
+async function banUser (req) {
+  try{
+    const user = await User.findByPk(req)//llega
+    if(user && !user.isAdmin){
+      if(user.isActive){
+        user.isActive = false;
+        user.save()
+        return(user)
+      } else if (!user.isActive) {
+        user.isActive = true
+        user.save()
+        return(user)
+      }
+    } else if (user && user.isAdmin){
+      console.log("Cand ban an admin.")
+    } else {
+      console.log("User not found")
+    }
+  } catch (error) {
+    console.log(error.message)
+  } 
+}
+
+module.exports = {fetchUsers, createUser, banUser}

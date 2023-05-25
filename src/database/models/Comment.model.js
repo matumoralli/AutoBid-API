@@ -11,11 +11,4 @@ module.exports = conn.define('Comment', {
         type: DataTypes.TEXT,
         allowNull: false
     },
-    auctionId : {
-        type: DataTypes.UUID,
-        allowNull: false,
-    }
-
-   
-
 })

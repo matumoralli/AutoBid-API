@@ -47,3 +47,5 @@ User.hasMany(CarDetail);
 module.exports = {
   conn: sequelize,
 };
+
+

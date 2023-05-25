@@ -1,4 +1,17 @@
-const { Auction } = require ('../../database/models')
+const { Auction, Comment } = require("../../database/models");
+
+async function fetchAuctions(params) {
+  try {
+    return await Auction.findAll({
+      include: {
+        model: Comment,
+      },
+    });
+  } catch (error) {
+    console.log("Could no Fetch AUCTIONS from DB: ", error);
+  }
+
+}
 
 async function createAuction ({carDetailId, userId, minPrice, sellerType }){
   try{
@@ -8,4 +21,4 @@ async function createAuction ({carDetailId, userId, minPrice, sellerType }){
   }
 }
 
-module.exports = { createAuction }
+module.exports = { fetchAuctions, createAuction };

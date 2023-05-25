@@ -11,8 +11,4 @@ module.exports = conn.define('Reply', {
         type:TEXT,
         allowNull: false
     },
-    commentId: {
-        type: UUID,
-        allowNull: false,
-    }
 })

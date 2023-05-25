@@ -1,7 +1,7 @@
 const { STRING, UUID, UUIDV4, INTEGER, BOOLEAN, TEXT } = require('sequelize')
 const { conn } = require("../db.js");
 
-module.exports = conn.define('carDetail', {
+module.exports = conn.define('CarDetail', {
     id:{
         type:UUID,
         defaultValue: UUIDV4,

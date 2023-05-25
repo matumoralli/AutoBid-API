@@ -1,6 +1,7 @@
+require("dotenv").config();
 const axios = require("axios");
-const { TOKEN_URL, CLIENT_ID,  CLIENT_SECRET, AUTH0_HELPER_AUDIENCE } = process.env;
-
+const { TOKEN_URL, CLIENT_ID, CLIENT_SECRET, AUTH0_HELPER_AUDIENCE } =
+  process.env;
 
 async function auth0Helper(userID, action, data) {
   let auth0Response = "";
@@ -8,15 +9,20 @@ async function auth0Helper(userID, action, data) {
   const requestAccessToken = {
     method: "POST",
     url: `${TOKEN_URL}`,
-    headers: { 'content-type': 'application/json' },
-    body: `{"client_id":"${CLIENT_ID}","client_secret":"${CLIENT_SECRET}","audience":"${AUTH0_HELPER_AUDIENCE}","grant_type":"client_credentials"}`
+    headers: { "content-type": "application/json" },
+    data: {
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET,
+      audience: AUTH0_HELPER_AUDIENCE,
+      grant_type: "client_credentials",
+    },
   };
 
   await axios(requestAccessToken)
     .then(async function (response) {
       const token = response.data.access_token;
       console.log(
-        "Auth0.controller got an access token:",
+        "Auth0.helper got an access token:",
         token,
         "And this is the user info:",
         userID,
@@ -110,22 +116,28 @@ async function auth0Helper(userID, action, data) {
           break;
 
         default:
-          console.log("Auth0.controller did not return any action");
+          console.log("Auth0.helper did not return any action");
       }
-      console.log("Auth0.controller endPointRequest:", endPointRequest);
+      console.log("Auth0.helper endPointRequest:", endPointRequest);
       await axios(endPointRequest)
         .then((response) => {
           auth0Response = response.data;
         })
         .catch((error) => {
-          console.log("There has been an error running Auth0.controller:", error);
+          console.log(
+            "There has been an error running Auth0.helper:",
+            error
+          );
         });
     })
     .catch(function (error) {
-      console.log("There has been an error in Auth0.controller requesting an access token:", error);
+      console.log(
+        "There has been an error in Auth0.helper requesting an access token:",
+        error
+      );
     });
 
   return auth0Response;
-};
+}
 
-module.exports = {auth0Helper};
+module.exports = { auth0Helper };

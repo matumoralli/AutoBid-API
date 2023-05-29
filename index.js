@@ -11,6 +11,10 @@ const {
 
 const PORT = 8000;
 
+
+
+
+
 //User 1 == N CarDetail
 User.hasMany(CarDetail);
 CarDetail.belongsTo(User);

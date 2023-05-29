@@ -25,8 +25,8 @@ Comment.belongsTo(User)
 
 
 //CardDetails 1 == 1 Auction
-CarDetail.belongsTo(Auction)
 Auction.hasOne(CarDetail)
+CarDetail.belongsTo(Auction)
 
 
 //Auctions 1 == N Comments
@@ -42,7 +42,14 @@ Reply.belongsTo(Comment);
 
 
 
-conn.sync({ force: false }).then(() => {
+conn.sync({ force: false }).then( async() => {
+  // for(let i = 1; i <= 25; i++){
+  //   const auction = {
+  //     minPrice : i+100,
+  //     sellerType: "Dealer"
+  //   }
+  //   await Auction.create(auction);
+  // }
   server.listen(PORT, () => {
     console.log("Server listening at", PORT);
   });

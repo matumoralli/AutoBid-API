@@ -19,15 +19,12 @@ server.use("/replies", require("./routes/repliesRoutes"));
 server.use("/comments", require("./routes/commentsRoutes"));
 
 
-
 server.use("*", (req, res) => {
   res.status(404).send({
     error: true,
     message: "Not Found",
   });
 });
-
-
 
 
 server.use((err, req, res, next) => {

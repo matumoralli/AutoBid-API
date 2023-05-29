@@ -1,7 +1,7 @@
 const usersServices = require("../../services/users");
 const { response } = require("../../utils");
 const { ClientError } = require("../../utils/errors");
-
+const { welcomeEmail} = require("../../services/mailing/index")
 async function getUsers(req, res) {
   const users = await usersServices.list();
   if (users) response(res, 200, users);
@@ -10,7 +10,10 @@ async function getUsers(req, res) {
 
 async function postUser(req, res) {
   const newUser = await usersServices.create(req.body);
-  if (newUser) response(res, 201, newUser);
+  if (newUser){
+    welcomeEmail(req.body.email)
+   return response(res, 201, newUser);
+  }
   else throw new ClientError("Error creating user", 404);
 }
 

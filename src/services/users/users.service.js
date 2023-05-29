@@ -34,7 +34,7 @@ async function banUser (req) {
         return(user)
       }
     } else if (user && user.isAdmin){
-      console.log("Cand ban an admin.")
+      console.log("Can't ban an admin.")
     } else {
       console.log("User not found")
     }

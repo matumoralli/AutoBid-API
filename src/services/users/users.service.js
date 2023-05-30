@@ -1,4 +1,5 @@
 const { User } = require("../../database/models");
+const { users } = require("../db.json");
 
 async function fetchUsers () {
   try {
@@ -34,7 +35,7 @@ async function banUser (req) {
         return(user)
       }
     } else if (user && user.isAdmin){
-      console.log("Cand ban an admin.")
+      console.log("Can't ban an admin.")
     } else {
       console.log("User not found")
     }
@@ -43,4 +44,19 @@ async function banUser (req) {
   } 
 }
 
-module.exports = {fetchUsers, createUser, banUser}
+async function populateDB() {
+  try {
+    const usersArray = [];
+    users.forEach((user) => {
+      const { id, ...rest } = user;
+      const newUser = { ...rest };
+      usersArray.push(newUser);
+    });
+
+    return await User.bulkCreate(usersArray);
+  } catch (error) {
+    console.log("Could not bulk create users database from JSON", error.message);
+  }
+}
+
+module.exports = {fetchUsers, createUser, banUser, populateDB}

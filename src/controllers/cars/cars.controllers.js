@@ -14,4 +14,10 @@ async function postCar(req, res) {
   else throw new ClientError("Error creating car", 400);
 }
 
-module.exports = { getCars, postCar };
+async function populateDB(req, res) {
+  const newCars = await carsServices.populateDB();
+  if (newCars) response(res, 201, newCars);
+  else throw new ClientError("Error populating DB", 400);
+}
+
+module.exports = { getCars, postCar, populateDB };

@@ -1,3 +1,4 @@
+
 const { Auction, Comment, CarDetail, User } = require("../../database/models");
 
 
@@ -14,7 +15,6 @@ async function fetchAuctions(req) {
   if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0 && sizeAsNumber < 16) {
     size = sizeAsNumber;
   }
-
   try {
     const auctions = await Auction.findAndCountAll({
       limit: size,
@@ -69,14 +69,29 @@ async function editAuction(req) {
   } catch (error) {
     console.log("Could not update Auction from DB")
   }
-}
+ }
 
-async function createAuction ({carDetailId, userId, minPrice, sellerType }){
-  try{
-    const newAuction = Auction.create(minPrice, sellerType)
+
+
+async function createAuction({ carDetailId, userId, minPrice, sellerType }) {
+  try {
+    const newAuction = await Auction.create({ minPrice, sellerType });
+
+    let UserId = await User.findOne({
+      where: { id: userId },
+    });
+
+    let CarDetailId = await CarDetail.findOne({
+      where: { id: carDetailId },
+    });
+
+    newAuction.setUser(UserId.dataValues.id);
+    return newAuction.setCarDetail(CarDetailId.dataValues.id);
   } catch (error) {
-    console.log("Could not create the auction", error.message)
+    console.log("Could not create the auction", error.message);
   }
 }
 
+
 module.exports = { fetchAuctions, createAuction, fetchAuction, editAuction};
+

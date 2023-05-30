@@ -19,7 +19,10 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
 
 // test()
 
+
 // const {Auction, Bid, CarDetail, Comment, Reply, User} = sequelize.models
+
+
 
 
 // Auction.belongsTo(User);
@@ -42,10 +45,6 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
 // User.hasMany(CarDetail);
 
 
-
-
 module.exports = {
   conn: sequelize,
 };
-
-

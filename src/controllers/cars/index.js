@@ -1,7 +1,8 @@
 const { catchedAsync } = require("../../utils");
-const { getCars, postCar } = require("./cars.controllers");
+const { getCars, postCar, populateDB } = require("./cars.controllers");
 
 module.exports = {
   getCars: catchedAsync(getCars),
-  postCar: catchedAsync(postCar)
+  postCar: catchedAsync(postCar),
+  populateDB: catchedAsync(populateDB),
 };

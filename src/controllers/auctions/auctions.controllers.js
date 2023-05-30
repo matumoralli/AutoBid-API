@@ -9,5 +9,11 @@ async function getAuctions(req,res) {
     else throw new ClientError("Not Auctions found", 404); 
 }
 
+async function postAuction(req, res) {
+  const newAuction = await auctionServices.create(req.body);
+  if (newAuction) response(res, 201, newAuction);
+  else throw new ClientError("Error creating auction", 400);
+}
 
-module.exports = {getAuctions};
+
+module.exports = {getAuctions, postAuction};

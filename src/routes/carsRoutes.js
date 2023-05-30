@@ -9,4 +9,6 @@ router.get("/", controllers.getCars);
 
 router.post("/", controllers.postCar);
 
+router.post("/populate", controllers.populateDB);
+
 module.exports = router;

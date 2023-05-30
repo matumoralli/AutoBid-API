@@ -1,4 +1,4 @@
-const { Auction, Comment } = require("../../database/models");
+const { Auction, Comment, User, CarDetail } = require("../../database/models");
 
 async function fetchAuctions(params) {
   try {
@@ -8,16 +8,26 @@ async function fetchAuctions(params) {
       },
     });
   } catch (error) {
-    console.log("Could no Fetch AUCTIONS from DB: ", error);
+    console.log("Could not Fetch AUCTIONS from DB: ", error);
   }
-
 }
 
-async function createAuction ({carDetailId, userId, minPrice, sellerType }){
-  try{
-    const newAuction = Auction.create(minPrice, sellerType)
+async function createAuction({ carDetailId, userId, minPrice, sellerType }) {
+  try {
+    const newAuction = await Auction.create({ minPrice, sellerType });
+
+    let UserId = await User.findOne({
+      where: { id: userId },
+    });
+
+    let CarDetailId = await CarDetail.findOne({
+      where: { id: carDetailId },
+    });
+
+    newAuction.setUser(UserId.dataValues.id);
+    return newAuction.setCarDetail(CarDetailId.dataValues.id);
   } catch (error) {
-    console.log("Could not create the auction", error.message)
+    console.log("Could not create the auction", error.message);
   }
 }
 

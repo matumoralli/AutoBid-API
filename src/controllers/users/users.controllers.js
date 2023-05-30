@@ -23,4 +23,10 @@ async function banUser(req, res) {
   } else throw new ClientError("Error changing user status", 404);
 }
 
-module.exports = { getUsers, postUser, banUser };
+async function populateDB(req, res) {
+  const newUsers = await usersServices.populateDB();
+  if (newUsers) response(res, 201, newUsers);
+  else throw new ClientError("Error populating DB", 400);
+}
+
+module.exports = { getUsers, postUser, banUser, populateDB };

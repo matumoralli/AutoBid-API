@@ -19,7 +19,10 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
 
 // test()
 
-//  const { Auction, Bid, CarDetail, Comment, Reply, User } = sequelize.models;
+
+// const {Auction, Bid, CarDetail, Comment, Reply, User} = sequelize.models
+
+
 
 
 // Auction.belongsTo(User);
@@ -32,7 +35,7 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
 // Comment.belongsTo(User);
 // Comment.hasMany(Reply);
 // CarDetail.belongsTo(Auction);
-// CarDetail.belongsTo(User);
+// CarDetail.belongsTo(User)
 // Reply.belongsTo(Comment);
 // Reply.belongsTo(User);
 // User.hasMany(Bid);
@@ -40,6 +43,7 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
 // User.hasMany(Reply);
 // User.hasMany(Auction);
 // User.hasMany(CarDetail);
+
 
 module.exports = {
   conn: sequelize,

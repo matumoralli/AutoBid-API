@@ -32,8 +32,9 @@ User.hasMany(Comment);
 Comment.belongsTo(User);
 
 //CardDetails 1 == 1 Auction
-CarDetail.belongsTo(Auction);
-Auction.hasOne(CarDetail);
+Auction.hasOne(CarDetail)
+CarDetail.belongsTo(Auction)
+
 
 //Auctions 1 == N Comments
 Auction.hasMany(Comment);
@@ -46,7 +47,10 @@ Bid.belongsTo(Auction);
 Comment.hasMany(Reply);
 Reply.belongsTo(Comment);
 
+
+
 conn.sync({ force: false }).then(() => {
+
   server.listen(PORT, () => {
     console.log("Server listening at", PORT);
   });

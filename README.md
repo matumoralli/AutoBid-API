@@ -3,8 +3,8 @@ df# AutoBid-API
 
 DATABASE --es llamado por -> SERVICES --es llamado por -> CONTROLLERS --se envian por -> ROUTES -- y terminan en -> SERVER
 
--get auctions (paginado)
--put auction
+-get auctions (paginado) //hecho ==> /auctions?page=0&size=15 (page= pagina actual, size= cantidad por pagina(15 max))
+-put auction  //hecho ==> /auctions/{id de auction} body={ datos a cambiar} 
 -ban user //hecho
 -post cardetal //hecho
 -Crear las publicaciones y cargar el contenido. (descripciones, fotos, videos, archivos pdf)

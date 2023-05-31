@@ -1,6 +1,8 @@
-const { fetchAuctions, createAuction} = require("./auctions.service")
+const { fetchAuctions, createAuction, fetchAuction, editAuction} = require("./auctions.service")
 
 module.exports = { 
-    list: async () => await fetchAuctions(),
-    create: async (req) => createAuction(req)
+    list: async (req) => await fetchAuctions(req),
+    get: async (req) => await fetchAuction(req),
+    create: async (req) => createAuction(req),
+    edit: async (req) => editAuction(req)
 }

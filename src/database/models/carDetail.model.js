@@ -5,6 +5,7 @@ const {
   INTEGER,
   BOOLEAN,
   TEXT,
+  ARRAY,
   DataTypes,
 } = require("sequelize");
 const { conn } = require("../db.js");
@@ -90,5 +91,9 @@ module.exports = conn.define("CarDetail", {
   checked: {
     type: BOOLEAN,
     defaultValue: false,
+  },
+  images: {
+    type: ARRAY(STRING),
+    allowNull: true,
   },
 });

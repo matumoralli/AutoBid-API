@@ -1,6 +1,4 @@
-
 const { Auction, Comment, CarDetail, User } = require("../../database/models");
-
 
 async function fetchAuctions(req) {
   const pageAsNumber = Number.parseInt(req.query.page);
@@ -43,55 +41,56 @@ async function fetchAuctions(req) {
 }
 
 async function fetchAuction(req) {
-      const auctionId = req.params.id
-      try {
-        return await Auction.findByPk(auctionId,{
-          include: {
-            model: User,
-            model: CarDetail,
-            model: Comment
-          }
-        })
-      } catch (error) {
-        console.log("Could not fetch Auction from DB")
-      }
-      
+  const auctionId = req.params.id;
+  try {
+    return await Auction.findByPk(auctionId, {
+      include: {
+        model: User,
+        model: CarDetail,
+        model: Comment,
+      },
+    });
+  } catch (error) {
+    console.log("Could not fetch Auction from DB");
+  }
 }
 
 async function editAuction(req) {
-  const auctionId = req.params.id
-  const newInfo = req.body
+  const auctionId = req.params.id;
+  const newInfo = req.body;
   try {
-    return await Auction.update(
-      newInfo,
-      { where: { id: auctionId } }
-    );
+    return await Auction.update(newInfo, { where: { id: auctionId } });
   } catch (error) {
-    console.log("Could not update Auction from DB")
+    console.log("Could not update Auction from DB");
   }
- }
-
-
+}
 
 async function createAuction({ carDetailId, userId, minPrice, sellerType }) {
   try {
-    const newAuction = await Auction.create({ minPrice, sellerType });
-
-    let UserId = await User.findOne({
+    let userDB = await User.findOne({
       where: { id: userId },
     });
 
-    let CarDetailId = await CarDetail.findOne({
+    let carDetailDB = await CarDetail.findOne({
       where: { id: carDetailId },
     });
 
-    newAuction.setUser(UserId.dataValues.id);
-    return newAuction.setCarDetail(CarDetailId.dataValues.id);
+    let checkExistingAuctionDB = await Auction.findOne({
+      where: { UserId: userId },
+    });
+
+    const check =
+      (userDB && carDetailDB) !== null && checkExistingAuctionDB === null;
+
+    if (check) {
+      const newAuction = await Auction.create({ minPrice, sellerType });
+
+      newAuction.setUser(userDB.dataValues.id);
+      return newAuction.setCarDetail(carDetailDB.dataValues.id);
+    }
   } catch (error) {
     console.log("Could not create the auction", error.message);
   }
 }
 
-
-module.exports = { fetchAuctions, createAuction, fetchAuction, editAuction};
-
+module.exports = { fetchAuctions, createAuction, fetchAuction, editAuction };

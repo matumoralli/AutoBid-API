@@ -32,34 +32,37 @@ async function createCarDetail({
   email,
 }) {
   try {
-    const newCarDetail = await CarDetail.create({
-      brand,
-      model,
-      year,
-      kilometers,
-      domain,
-      owner,
-      engine,
-      transmission,
-      driveTrain,
-      bodyType,
-      color,
-      highlights,
-      equipement,
-      modifications,
-      knownFlaws,
-      services,
-      addedItems,
-      checked,
-      images,
-    });
-
-    let UserId = await User.findOne({
+    let userDB = await User.findOne({
       where: { email: email },
     });
 
-    return newCarDetail.setUser(UserId.dataValues.id)
-  
+    const check = userDB !== null;
+
+    if (check) {
+      const newCarDetail = await CarDetail.create({
+        brand,
+        model,
+        year,
+        kilometers,
+        domain,
+        owner,
+        engine,
+        transmission,
+        driveTrain,
+        bodyType,
+        color,
+        highlights,
+        equipement,
+        modifications,
+        knownFlaws,
+        services,
+        addedItems,
+        checked,
+        images,
+      });
+
+      return newCarDetail.setUser(userDB.dataValues.id);
+    }
   } catch (error) {
     console.log("Could not create the car details", error.message);
   }

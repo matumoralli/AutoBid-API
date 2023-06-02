@@ -1,7 +1,8 @@
 const { ClientError } = require("../utils/errors");
 
 module.exports = (req, res, next) => {
-  const { name, email, password } = req.body;
-  if ( name, email, password) return next();
+  const { email } = req.params;
+  const { name }  = req.body;
+  if ( name, email) return next();
   else throw new ClientError("Neccesary fields missing", 400);
 };

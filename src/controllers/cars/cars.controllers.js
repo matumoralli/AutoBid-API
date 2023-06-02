@@ -9,7 +9,7 @@ async function getCars(req, res) {
 }
 
 async function postCar(req, res) {
-  const newCar = await carsServices.create(req.body);
+  const newCar = await carsServices.create(req.body, req.files);
   if (newCar) response(res, 201, newCar);
   else throw new ClientError("Error creating car", 400);
 }

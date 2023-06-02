@@ -1,4 +1,5 @@
 const { CarDetail, User } = require("../../database/models");
+const { uploadImage } = require("../../utils/cloudinary");
 const { cars } = require("../db.json");
 
 async function fetchCars() {
@@ -30,36 +31,42 @@ async function createCarDetail({
   checked,
   images,
   email,
-}) {
+}, {image}) {
   try {
-    const newCarDetail = await CarDetail.create({
-      brand,
-      model,
-      year,
-      kilometers,
-      domain,
-      owner,
-      engine,
-      transmission,
-      driveTrain,
-      bodyType,
-      color,
-      highlights,
-      equipement,
-      modifications,
-      knownFlaws,
-      services,
-      addedItems,
-      checked,
-      images,
-    });
+    // const newCarDetail = await CarDetail.create({
+    //   brand,
+    //   model,
+    //   year,
+    //   kilometers,
+    //   domain,
+    //   owner,
+    //   engine,
+    //   transmission,
+    //   driveTrain,
+    //   bodyType,
+    //   color,
+    //   highlights,
+    //   equipement,
+    //   modifications,
+    //   knownFlaws,
+    //   services,
+    //   addedItems,
+    //   checked,
+    //   images,
+    // });
 
-    let UserId = await User.findOne({
-      where: { email: email },
-    });
-
-    return newCarDetail.setUser(UserId.dataValues.id)
-  
+    // let UserId = await User.findOne({
+    //   where: { email: email },
+    // });
+    
+    // return newCarDetail.setUser(UserId.dataValues.id)
+    
+    if(image){
+      // const exito = await uploadImage(image.tempFilePath)
+      return {image}
+    }
+    return {error: "no se subio la imagen"}
+    
   } catch (error) {
     console.log("Could not create the car details", error.message);
   }

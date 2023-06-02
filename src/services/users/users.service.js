@@ -22,7 +22,6 @@ async function fetchOrCreate(req) {
         where: { name: name, email: email },
         defaults: { isAdmin: true },
       });
-      console.log("este debería ser un admin", user);
       return user;
     } catch (error) {
       console.log("Could not fetch or create User:", error.message);

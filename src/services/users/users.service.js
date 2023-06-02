@@ -1,6 +1,5 @@
 const { User } = require("../../database/models");
 const { users } = require("../db.json");
-const jwt_decode = require("jwt-decode");
 
 async function fetchUsers() {
   try {
@@ -11,6 +10,7 @@ async function fetchUsers() {
 }
 
 async function fetchOrCreate(req) {
+  const jwt_decode = require("jwt-decode");
   const { authorization } = req.headers;
   const { email } = req.params;
   const { name } = req.body;
@@ -64,6 +64,7 @@ async function banUser(req) {
 
 async function populateDB() {
   try {
+    console.log("llegamos a populateDB");
     const usersArray = [];
     users.forEach((user) => {
       const { id, ...rest } = user;

@@ -27,6 +27,7 @@ async function banUser(req, res) {
 }
 
 async function populateDB(req, res) {
+  console.log('llegamos al controller')
   const newUsers = await usersServices.populateDB();
   if (newUsers) response(res, 201, newUsers);
   else throw new ClientError("Error populating DB", 400);

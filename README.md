@@ -29,3 +29,6 @@ GMAIL_ACCOUNT = meetapp.nc@gmail.com
 GMAIL_PASSWORD = xnaaeuaejldydhef
 INICIO_AUTOBID = https://www.google.com
 VENDETUAUTO_AUTOBID = https://www.google.com
+CLOUDINARY_NAME= drwtxza2l
+CLOUDINARY_APIKEY= 479449722438873
+CLOUDINARY_SECRET= J1SkMSK-QSQ5jA1p0ACzOp477h4

@@ -14,6 +14,12 @@ DATABASE --es llamado por -> SERVICES --es llamado por -> CONTROLLERS --se envia
 -Comentar en las publicaciones como usuario “AutoBid” y que se diferencie visualmente de los comentarios de otros usuarios. 
 
 
+cloudinaty
+
+Al crear un auto (POST: /cars) tambien se debe enviar uno o mas archivos con el nombre image
+Se puede subir una imagen de un auto (POST: /cars/image/{id del auto}) por form se debe enviar el archivo con el nombre image
+Para borrar una imagen de un auto (DELETE: /cars/image/{id del auto}) por body se debe enviar la URL de la imagen como la propiedad "imageUrl"
+
 # VARIABLES DE ENTORNO
 
 DB_DATABASE=autobid

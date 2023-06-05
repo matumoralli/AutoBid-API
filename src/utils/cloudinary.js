@@ -1,21 +1,62 @@
-const {v2} = require("cloudinary")
-
-
-v2.config({ 
-    cloud_name: 'drwtxza2l', 
-    api_key: '479449722438873', 
-    api_secret: 'J1SkMSK-QSQ5jA1p0ACzOp477h4',
-    secure: true 
-  });
+const { v2 } = require("cloudinary")
+const fs = require("fs")
+const {CLOUDINARY_NAME, CLOUDINARY_APIKEY, CLOUDINARY_SECRET} = process.env
+v2.config({
+    cloud_name: CLOUDINARY_NAME,
+    api_key: CLOUDINARY_APIKEY,
+    api_secret: CLOUDINARY_SECRET,
+    secure: true
+});
 
 async function uploadImage(filePath) {
-    return await v2.uploader.upload(filePath,{
-        folder: "AutoBid"
-    })
-    
+    if (!Array.isArray(filePath)) {
+
+        try {
+            const imageUpload = await v2.uploader.upload(filePath.tempFilePath)
+          
+            //delete file
+            fs.unlinkSync(filePath.tempFilePath);
+            return [imageUpload.url]
+
+        } catch (error) {
+            console.log("Error uploading the image ", error)
+        }
+    } else {
+
+        let imagens = filePath.map((e) => e.tempFilePath)
+        const uploadPromises = imagens.map((image) => {
+            return v2.uploader.upload(image);
+        });
+        try {
+            const imageUploades = await Promise.all(uploadPromises);
+            //delete files
+            imagens.map((e) => {
+                fs.unlinkSync(e);
+            })
+            return imageUploades.map((e) => e.url)
+        } catch (error) {
+            console.log("Error uploading the images ", error)
+        }
+    }
+
 }
+
+async function deleteImageByUrl(imageUrl) {
+    try {
+        const publicId = imageUrl.split("/").reverse()[0].split(".")[0]
+        const {result} = await v2.uploader.destroy(publicId);
+        if(result === 'ok') return true
+        else return false
+    } catch (error) {
+        console.error('Error trying to delete image from cloud:', error);
+    }
+};
+
+
+
 
 
 module.exports = {
-    uploadImage
+    uploadImage,
+    deleteImageByUrl
 }

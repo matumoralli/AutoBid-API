@@ -14,7 +14,7 @@ server.use(express.json());
 server.use(cors());
 server.use(fileUpload({
   useTempFiles: true,
-  tempFileDir: './uploads'
+  tempFileDir: './src/uploads'
 }))
 
 server.use("/cars", require("./routes/carsRoutes"));

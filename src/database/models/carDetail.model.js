@@ -93,7 +93,9 @@ module.exports = conn.define("CarDetail", {
     defaultValue: false,
   },
   images: {
-    type: ARRAY(STRING),
+    type: DataTypes.ARRAY(DataTypes.STRING),
     allowNull: true,
-  },
+    defaultValue: []
+  }
+
 });

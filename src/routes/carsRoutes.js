@@ -9,4 +9,8 @@ router.post("/", controllers.postCar);
 
 router.post("/populate", controllers.populateDB);
 
+router.post("/image/:carId", controllers.postImage);
+
+router.delete("/image/:carId", controllers.deleteImage);
+
 module.exports = router;

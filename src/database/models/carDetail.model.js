@@ -5,6 +5,7 @@ const {
   INTEGER,
   BOOLEAN,
   TEXT,
+  ARRAY,
   DataTypes,
 } = require("sequelize");
 const { conn } = require("../db.js");
@@ -96,4 +97,5 @@ module.exports = conn.define("CarDetail", {
     allowNull: true,
     defaultValue: []
   }
+
 });

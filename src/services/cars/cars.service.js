@@ -33,7 +33,6 @@ async function createCarDetail({
   email,
 }, { image }) {
 
-  let images;
   try {
     if (image !== null) {
       images = await uploadImage(image)

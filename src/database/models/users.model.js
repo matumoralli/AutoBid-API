@@ -18,7 +18,7 @@ module.exports = conn.define("User", {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     isActive: {
       type: DataTypes.BOOLEAN,

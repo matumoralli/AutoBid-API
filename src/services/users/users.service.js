@@ -1,51 +1,69 @@
 const { User } = require("../../database/models");
 const { users } = require("../db.json");
 
-async function fetchUsers () {
+async function fetchUsers() {
   try {
     return await User.findAll();
   } catch (error) {
     console.log("Could not fetch Users from DB:", error.message);
   }
-};
+}
 
-async function createUser ( { name, email, password } ) {
-  try {
-    return await User.create({
-    name,
-    email,
-    password,
-  });
-  } catch (error) {
-    console.log("Could not create User:", error.message);
+async function fetchOrCreate(req) {
+  const jwt_decode = require("jwt-decode");
+  const { authorization } = req.headers;
+  const { email } = req.params;
+  const { name } = req.body;
+  const authorizationArray = jwt_decode(authorization).permissions;
+  const check = authorizationArray.includes("update:users");
+  if (check) {
+    try {
+      const user = await User.findOrCreate({
+        where: { name: name, email: email },
+        defaults: { isAdmin: true },
+      });
+      return user;
+    } catch (error) {
+      console.log("Could not fetch or create User:", error.message);
+    }
+  } else {
+    try {
+      const user = await User.findOrCreate({
+        where: { name: name, email: email },
+      });
+      return user;
+    } catch (error) {
+      console.log("Could not fetch or create User:", error.message);
+    }
   }
-};
+}
 
-async function banUser (req) {
-  try{
-    const user = await User.findByPk(req)//llega
-    if(user && !user.isAdmin){
-      if(user.isActive){
+async function banUser(req) {
+  try {
+    const user = await User.findByPk(req); //llega
+    if (user && !user.isAdmin) {
+      if (user.isActive) {
         user.isActive = false;
-        user.save()
-        return(user)
+        user.save();
+        return user;
       } else if (!user.isActive) {
-        user.isActive = true
-        user.save()
-        return(user)
+        user.isActive = true;
+        user.save();
+        return user;
       }
-    } else if (user && user.isAdmin){
-      console.log("Can't ban an admin.")
+    } else if (user && user.isAdmin) {
+      console.log("Can't ban an admin.");
     } else {
-      console.log("User not found")
+      console.log("User not found");
     }
   } catch (error) {
-    console.log(error.message)
-  } 
+    console.log(error.message);
+  }
 }
 
 async function populateDB() {
   try {
+    console.log("llegamos a populateDB");
     const usersArray = [];
     users.forEach((user) => {
       const { id, ...rest } = user;
@@ -55,8 +73,11 @@ async function populateDB() {
 
     return await User.bulkCreate(usersArray);
   } catch (error) {
-    console.log("Could not bulk create users database from JSON", error.message);
+    console.log(
+      "Could not bulk create users database from JSON",
+      error.message
+    );
   }
 }
 
-module.exports = {fetchUsers, createUser, banUser, populateDB}
+module.exports = { fetchUsers, fetchOrCreate, banUser, populateDB };

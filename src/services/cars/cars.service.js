@@ -29,14 +29,22 @@ async function createCarDetail({
   services,
   addedItems,
   checked,
+  images,
   email,
 }, { image }) {
 
-  let images;
   try {
     if (image !== null) {
       images = await uploadImage(image)
     }
+
+    let userDB = await User.findOne({
+      where: { email: email },
+    });
+
+    const check = userDB !== null;
+
+    if (check) {
     const newCarDetail = await CarDetail.create({
       brand,
       model,
@@ -58,11 +66,10 @@ async function createCarDetail({
       checked,
       images,
     });
-    let UserId = await User.findOne({
-      where: { email: email },
-    });
 
     return newCarDetail.setUser(UserId.dataValues.id)
+  }
+  
   } catch (error) {
     console.log("Could not create the car details", error.message);
   }

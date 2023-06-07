@@ -1,4 +1,4 @@
-const { User } = require("../../database/models");
+const { User, Credit } = require("../../database/models");
 const { users } = require("../db.json");
 
 async function fetchUsers() {
@@ -21,6 +21,10 @@ async function fetchOrCreate(req) {
       const user = await User.findOrCreate({
         where: { name: name, email: email },
         defaults: { isAdmin: true },
+        include: {
+          model: Credit,
+          attributes: ["id", "AuctionId"],
+        },
       });
       return user;
     } catch (error) {
@@ -30,11 +34,32 @@ async function fetchOrCreate(req) {
     try {
       const user = await User.findOrCreate({
         where: { name: name, email: email },
+        include: {
+          model: Credit,
+          attributes: ["id", "AuctionId"],
+        },
       });
       return user;
     } catch (error) {
       console.log("Could not fetch or create User:", error.message);
     }
+  }
+}
+
+async function giveCredit(req) {
+  const { email } = req.params;
+  console.log("id:", email);
+  try {
+    const user = await User.findOne({
+      where: { email: email },
+    });
+    console.log(user);
+    if (user) {
+      const newCredit = await Credit.create();
+      return newCredit.setUser(user.dataValues.id);
+    }
+  } catch (error) {
+    console.log("Could not give credit to user:", error.message);
   }
 }
 
@@ -80,4 +105,4 @@ async function populateDB() {
   }
 }
 
-module.exports = { fetchUsers, fetchOrCreate, banUser, populateDB };
+module.exports = { fetchUsers, fetchOrCreate, giveCredit, banUser, populateDB };

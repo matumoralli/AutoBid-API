@@ -10,6 +10,13 @@ router.post(
   controllers.postUser
 );
 //!
+
+router.put(
+  "/user/:email/credit",
+  middlewares.jwtCheckAdmin,
+  controllers.giveCredit,
+);
+
 router.put("/ban", middlewares.jwtCheckSuperAdmin, controllers.banUser);
 
 router.post("/populate", controllers.populateDB);

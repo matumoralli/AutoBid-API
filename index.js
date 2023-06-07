@@ -7,17 +7,18 @@ const {
   User,
   Bid,
   CarDetail,
+  Credit,
 } = require("./src/database/models");
 
 const PORT = 8000;
 
 
-
-
-
 //User 1 == N CarDetail
 User.hasMany(CarDetail);
 CarDetail.belongsTo(User);
+//User 1 == N credit
+User.hasMany(Credit);
+Credit.belongsTo(User);
 //User 1 == N Auction
 User.hasMany(Auction);
 Auction.belongsTo(User);
@@ -39,9 +40,12 @@ CarDetail.belongsTo(Auction)
 //Auctions 1 == N Comments
 Auction.hasMany(Comment);
 Comment.belongsTo(Auction);
-//Auction 1 == N Bib
+//Auction 1 == N Bid
 Auction.hasMany(Bid);
 Bid.belongsTo(Auction);
+//Auction 1 == N Credit
+Auction.hasMany(Credit);
+Credit.belongsTo(Auction);
 
 //Comments 1 == N Reply
 Comment.hasMany(Reply);

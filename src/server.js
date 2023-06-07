@@ -26,7 +26,7 @@ server.use("/comments", require("./routes/commentsRoutes"));
 server.use("*", (req, res) => {
   res.status(404).send({
     error: true,
-    message: "Not Found",
+    message: "Requested route not found",
   });
 });
 

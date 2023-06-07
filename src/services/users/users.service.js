@@ -48,7 +48,7 @@ async function fetchOrCreate(req) {
 
 async function giveCredit(req) {
   const { email } = req.params;
-  console.log("id:", email);
+  console.log(email);
   try {
     const user = await User.findOne({
       where: { email: email },

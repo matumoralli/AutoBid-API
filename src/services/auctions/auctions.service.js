@@ -1,4 +1,4 @@
-const { Auction, Comment, CarDetail, User } = require("../../database/models");
+const { Auction, Comment, CarDetail, User, Bid } = require("../../database/models");
 
 async function fetchAuctions(req) {
   const pageAsNumber = Number.parseInt(req.query.page);
@@ -44,11 +44,12 @@ async function fetchAuction(req) {
   const auctionId = req.params.id;
   try {
     return await Auction.findByPk(auctionId, {
-      include: {
-        model: User,
-        model: CarDetail,
-        model: Comment,
-      },
+      include: [
+        {model: User},
+        {model: CarDetail},
+        {model: Bid},
+        {model: Comment}
+      ],
     });
   } catch (error) {
     console.log("Could not fetch Auction from DB");
@@ -65,15 +66,12 @@ async function editAuction(req) {
   }
 }
 
-async function createAuction({ carDetailId, userId, minPrice, sellerType }) {
+async function createAuction({ carDetailId, userId, minPrice, sellerType, customEnd }) {
   try {
-    let userDB = await User.findOne({
-      where: { id: userId },
-    });
+    let userDB = await User.findByPk(userId);
 
-    let carDetailDB = await CarDetail.findOne({
-      where: { id: carDetailId },
-    });
+    let carDetailDB = await CarDetail.findByPk(carDetailId);
+
 
     let checkExistingAuctionDB = await Auction.findOne({
       where: { UserId: userId },
@@ -90,7 +88,7 @@ async function createAuction({ carDetailId, userId, minPrice, sellerType }) {
 
       const startAuction = new Date(newAuction.createdAt) //start of auction
       const endAuction = startAuction.setDate(startAuction.getDate() + 7) //get end of auction
-      newAuction.endTime = endAuction //add end of auction (7 days later)
+      customEnd ? newAuction.endTime = customEnd : newAuction.endTime = endAuction //add end of auction (custom, or 7 days later)
       //saving changes
       await newAuction.save()
       return newAuction

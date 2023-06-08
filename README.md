@@ -16,8 +16,8 @@ DATABASE --es llamado por -> SERVICES --es llamado por -> CONTROLLERS --se envia
 
 cloudinaty
 
-Al crear un auto (POST: /cars) tambien se debe enviar uno o mas archivos con el nombre image
-Se puede subir una imagen de un auto (POST: /cars/image/{id del auto}) por form se debe enviar el archivo con el nombre image
+Al crear un auto (POST: /cars) tambien se debe enviar uno o mas archivos con el nombre: image
+Se puede subir una imagen de un auto (POST: /cars/image/{id del auto}) por form se debe enviar el archivo con el nombre: image
 Para borrar una imagen de un auto (DELETE: /cars/image/{id del auto}) por body se debe enviar la URL de la imagen como la propiedad "imageUrl"
 
 # VARIABLES DE ENTORNO
@@ -38,3 +38,5 @@ VENDETUAUTO_AUTOBID = https://www.google.com
 CLOUDINARY_NAME= drwtxza2l
 CLOUDINARY_APIKEY= 479449722438873
 CLOUDINARY_SECRET= J1SkMSK-QSQ5jA1p0ACzOp477h4
+URL_MERCADOPAGO_API = https://api.mercadopago.com/checkout/preferences
+ACCESS_TOKEN_MERCADOPAGO = TEST-302497730164101-060613-f74d02f18012f1255519bf76924bb212-1392189307

@@ -67,7 +67,7 @@ async function createCarDetail({
       images,
     });
 
-    return newCarDetail.setUser(UserId.dataValues.id)
+    return newCarDetail.setUser(userDB.id)
   }
   
   } catch (error) {

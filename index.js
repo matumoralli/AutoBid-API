@@ -7,6 +7,7 @@ const {
   User,
   Bid,
   CarDetail,
+  Payment
 } = require("./src/database/models");
 
 const PORT = 8000;
@@ -47,6 +48,14 @@ Bid.belongsTo(Auction);
 Comment.hasMany(Reply);
 Reply.belongsTo(Comment);
 
+//Payment 1 == N User
+Payment.belongsTo(User, { as: 'buyer', foreignKey: 'buyerUserId' });
+Payment.belongsTo(User, { as: 'seller', foreignKey: 'sellerUserId' });
+User.hasMany(Payment)
+
+//Payment 1 == 1 CardDetails
+CarDetail.hasOne(Payment)
+Payment.belongsTo(CarDetail)
 
 
 conn.sync({ force: false }).then(() => {

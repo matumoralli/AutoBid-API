@@ -5,4 +5,5 @@ module.exports = {
   Comment: require('./comment.model'),
   Reply: require('./reply.model'),
   User: require('./users.model'),
+  Payment: require('./payment.model')
 }

@@ -3,7 +3,13 @@ const { users } = require("../db.json");
 
 async function fetchUsers() {
   try {
-    return await User.findAll();
+    const usersDB = User.findAll({
+      include: {
+        model: Credit,
+        attributes: ["id", "AuctionId"],
+      },
+    });
+    return usersDB;
   } catch (error) {
     console.log("Could not fetch Users from DB:", error.message);
   }
@@ -48,16 +54,37 @@ async function fetchOrCreate(req) {
 
 async function giveCredit(req) {
   const { email } = req.params;
-  console.log(email);
   try {
     const user = await User.findOne({
       where: { email: email },
     });
-    console.log(user);
     if (user) {
       const newCredit = await Credit.create();
       return newCredit.setUser(user.dataValues.id);
     }
+    throw new Error("User not found");
+  } catch (error) {
+    console.log("Could not give credit to user:", error.message);
+  }
+}
+
+async function removeCredit(req) {
+  const { email } = req.params;
+  try {
+    const user = await User.findOne({
+      where: { email: email },
+    });
+    if (user) {
+      const creditToDelete = await Credit.findOne({
+        where: { UserId: user.dataValues.id, AuctionId: null },
+      });
+
+      const creditDeleted = creditToDelete;
+
+      creditToDelete.destroy();
+      return creditDeleted;
+    }
+    throw new Error("User not found");
   } catch (error) {
     console.log("Could not give credit to user:", error.message);
   }
@@ -105,4 +132,11 @@ async function populateDB() {
   }
 }
 
-module.exports = { fetchUsers, fetchOrCreate, giveCredit, banUser, populateDB };
+module.exports = {
+  fetchUsers,
+  fetchOrCreate,
+  giveCredit,
+  removeCredit,
+  banUser,
+  populateDB,
+};

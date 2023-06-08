@@ -40,13 +40,13 @@ async function createCarDetail(
   { image }
 ) {
   try {
-    if (image !== null) {
-      images = await uploadImage(image);
-    }
-
     let userDB = await User.findOne({
       where: { email: email },
     });
+
+    if (!userDB) {
+      throw new Error("There is no User in DB with given email");
+    }
 
     let carDB = await CarDetail.findOne({
       where: {
@@ -71,9 +71,13 @@ async function createCarDetail(
       },
     });
 
-    if (!userDB)
-      return "There is no user registered in the DB with given email";
-    if (carDB) return "There is already a car in the DB with given details";
+    if (carDB) {
+      throw new Error("There is already a car in DB with given details");
+    }
+
+    if (image !== null) {
+      images = await uploadImage(image);
+    }
 
     const newCarDetail = await CarDetail.create({
       brand,
@@ -98,7 +102,10 @@ async function createCarDetail(
     });
     return newCarDetail.setUser(userDB.dataValues.id);
   } catch (error) {
-    console.log("Could not create the car details", error.message);
+    console.log(
+      "There has been an error in services trying to create a car:",
+      error.message
+    );
   }
 }
 

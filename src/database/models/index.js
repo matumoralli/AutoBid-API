@@ -3,7 +3,8 @@ module.exports = {
   Bid: require('./bid.model'),
   CarDetail: require('./carDetail.model'),
   Comment: require('./comment.model'),
-  Reply: require('./reply.model'),
+  Reply: require('./reply.model'),  
+  Payment: require('./payment.model')
   User: require('./user.model'),
   Credit: require('./credit.model')
 }

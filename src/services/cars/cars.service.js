@@ -101,6 +101,7 @@ async function createCarDetail(
       images,
     });
     return newCarDetail.setUser(userDB.dataValues.id);
+
   } catch (error) {
     console.log(
       "There has been an error in services trying to create a car:",

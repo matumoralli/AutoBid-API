@@ -1,4 +1,4 @@
-const transporter = require("../../email/index")
+const transporter = require("../../utils/email")
 const {INICIO_AUTOBID, VENDETUAUTO_AUTOBID} = process.env
 
 

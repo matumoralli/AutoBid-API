@@ -5,10 +5,8 @@ async function postBid({auctionId, userId, ammount}){
   const auction = await Auction.findByPk(auctionId, {include:{ model: Bid}});
   const user = await User.findByPk(userId)
   const lastBidAmmount = auction.Bids[auction.Bids.length -1].dataValues.ammount
-  
-  
-  
-  const bid = await Bid.create({ammount})
+  const bid = await Bid.create(ammount)
+
   //relating the bid with the respective user and auction.
   bid.setUser(user.dataValues.id)
   bid.setAuction(auction.dataValues.id)

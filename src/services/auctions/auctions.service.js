@@ -86,7 +86,14 @@ async function createAuction({ carDetailId, userId, minPrice, sellerType }) {
       const newAuction = await Auction.create({ minPrice, sellerType });
 
       newAuction.setUser(userDB.dataValues.id);
-      return newAuction.setCarDetail(carDetailDB.dataValues.id);
+      newAuction.setCarDetail(carDetailDB.dataValues.id);
+
+      const startAuction = new Date(newAuction.createdAt) //start of auction
+      const endAuction = startAuction.setDate(startAuction.getDate() + 7) //get end of auction
+      newAuction.endTime = endAuction //add end of auction (7 days later)
+      //saving changes
+      await newAuction.save()
+      return newAuction
     }
   } catch (error) {
     console.log("Could not create the auction", error.message);

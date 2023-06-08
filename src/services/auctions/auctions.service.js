@@ -17,10 +17,10 @@ async function fetchAuctions(req) {
     const auctions = await Auction.findAndCountAll({
       limit: size,
       offset: page * size,
-      include: {
-        model: User,
-        model: CarDetail,
-      },
+      include: [
+        { model: User },
+        {model: CarDetail},
+      ],
     });
 
     const totalPages = Math.ceil(auctions.count / size);

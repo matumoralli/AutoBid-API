@@ -26,13 +26,13 @@ server.use("/comments", require("./routes/commentsRoutes"));
 server.use("*", (req, res) => {
   res.status(404).send({
     error: true,
-    message: "Not Found",
+    message: "Requested route not found",
   });
 });
 
 
 server.use((err, req, res, next) => {
-  console.log(err.message)
+  console.log(`Status code ${err.statusCode || 500}:`, err.message)
   res.status(err.statusCode || 500).send({
     error: true,
     message: err.message,

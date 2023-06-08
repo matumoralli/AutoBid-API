@@ -17,6 +17,20 @@ async function postUser(req, res) {
   } else throw new ClientError("Error creating user", 404);
 }
 
+async function giveCredit(req, res) {
+  const userWCredit = await usersServices.giveCredit(req);
+  if (userWCredit) {
+    return response(res, 201, userWCredit);
+  } else throw new ClientError("Error creating credit for user", 404);
+}
+
+async function removeCredit(req, res) {
+  const userWOCredit = await usersServices.removeCredit(req);
+  if (userWOCredit) {
+    return response(res, 201, userWOCredit);
+  } else throw new ClientError("Error removing credit from user", 404);
+}
+
 async function banUser(req, res) {
   const banned = await usersServices.ban(req.body.userId); //error
   if (banned.isActive) {
@@ -33,4 +47,4 @@ async function populateDB(req, res) {
   else throw new ClientError("Error populating DB", 400);
 }
 
-module.exports = { getUsers, postUser, banUser, populateDB };
+module.exports = { getUsers, postUser, giveCredit, removeCredit, banUser, populateDB };

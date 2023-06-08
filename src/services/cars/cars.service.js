@@ -1,5 +1,9 @@
 const { CarDetail, User } = require("../../database/models");
-const { uploadImage, uploadMultipleImages, deleteImageByUrl } = require("../../utils/cloudinary");
+const {
+  uploadImage,
+  uploadMultipleImages,
+  deleteImageByUrl,
+} = require("../../utils/cloudinary");
 const { cars } = require("../db.json");
 
 async function fetchCars() {
@@ -10,41 +14,71 @@ async function fetchCars() {
   }
 }
 
-async function createCarDetail({
-  brand,
-  model,
-  year,
-  kilometers,
-  domain,
-  owner,
-  engine,
-  transmission,
-  driveTrain,
-  bodyType,
-  color,
-  highlights,
-  equipement,
-  modifications,
-  knownFlaws,
-  services,
-  addedItems,
-  checked,
-  images,
-  email,
-}, { image }) {
-
+async function createCarDetail(
+  {
+    brand,
+    model,
+    year,
+    kilometers,
+    domain,
+    owner,
+    engine,
+    transmission,
+    driveTrain,
+    bodyType,
+    color,
+    highlights,
+    equipement,
+    modifications,
+    knownFlaws,
+    services,
+    addedItems,
+    checked,
+    images,
+    email,
+  },
+  { image }
+) {
   try {
-    if (image !== null) {
-      images = await uploadImage(image)
-    }
-
     let userDB = await User.findOne({
       where: { email: email },
     });
 
-    const check = userDB !== null;
+    if (!userDB) {
+      throw new Error("There is no User in DB with given email");
+    }
 
-    if (check) {
+    let carDB = await CarDetail.findOne({
+      where: {
+        brand,
+        model,
+        year,
+        kilometers,
+        domain,
+        owner,
+        engine,
+        transmission,
+        driveTrain,
+        bodyType,
+        color,
+        highlights,
+        equipement,
+        modifications,
+        knownFlaws,
+        services,
+        addedItems,
+        checked,
+      },
+    });
+
+    if (carDB) {
+      throw new Error("There is already a car in DB with given details");
+    }
+
+    if (image !== null) {
+      images = await uploadImage(image);
+    }
+
     const newCarDetail = await CarDetail.create({
       brand,
       model,
@@ -66,12 +100,12 @@ async function createCarDetail({
       checked,
       images,
     });
-
-    return newCarDetail.setUser(UserId.dataValues.id)
-  }
-  
+    return newCarDetail.setUser(userDB.dataValues.id);
   } catch (error) {
-    console.log("Could not create the car details", error.message);
+    console.log(
+      "There has been an error in services trying to create a car:",
+      error.message
+    );
   }
 }
 
@@ -90,18 +124,16 @@ async function populateDB() {
   }
 }
 
-
-
 async function createImage({ carId }, { image }) {
   try {
     const car = await CarDetail.findByPk(carId);
     if (car) {
-      const urlNewImage = await uploadImage(image)
-      car.images = [...car.images, ...urlNewImage]
-      await car.save()
-      return car
+      const urlNewImage = await uploadImage(image);
+      car.images = [...car.images, ...urlNewImage];
+      await car.save();
+      return car;
     }
-    throw new Error("car with id "+carId+" not exist")
+    throw new Error("car with id " + carId + " not exist");
   } catch (error) {
     console.log("Error trying to save the image", error);
   }
@@ -110,19 +142,23 @@ async function createImage({ carId }, { image }) {
 async function removeImage({ carId }, { imageUrl }) {
   try {
     const car = await CarDetail.findByPk(carId);
-    const deleteFromCloud = await deleteImageByUrl(imageUrl)
-    if(deleteFromCloud){
+    const deleteFromCloud = await deleteImageByUrl(imageUrl);
+    if (deleteFromCloud) {
       let imagenesActuales = car.images;
-      imagenesActuales = imagenesActuales.filter(item => item !== imageUrl);   
-      car.images = [...imagenesActuales]
-      await car.save()
-      return car
+      imagenesActuales = imagenesActuales.filter((item) => item !== imageUrl);
+      car.images = [...imagenesActuales];
+      await car.save();
+      return car;
     }
   } catch (error) {
     console.log("Error trying to delete the image", error);
   }
 }
 
-
-
-module.exports = { fetchCars, createCarDetail, populateDB, createImage, removeImage };
+module.exports = {
+  fetchCars,
+  createCarDetail,
+  populateDB,
+  createImage,
+  removeImage,
+};

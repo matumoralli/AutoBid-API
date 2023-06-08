@@ -12,6 +12,18 @@ router.post(
 );
 //!
 
+router.put(
+  "/user/:email/credit",
+  middlewares.jwtCheckAdmin,
+  controllers.giveCredit,
+);
+
+router.put(
+  "/user/:email/remove-credit",
+  middlewares.jwtCheckAdmin,
+  controllers.removeCredit,
+);
+
 router.put("/ban", middlewares.jwtCheckSuperAdmin, controllers.banUser);
 
 router.post("/populate", controllers.populateDB);

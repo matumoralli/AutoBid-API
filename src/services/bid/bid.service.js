@@ -1,6 +1,6 @@
-const { Auction, Bid, User } = require ("../../database/models")
+const { Auction, Bid, User } = require("../../database/models");
 
-async function postBid({auctionId, userId, ammount}){
+async function postBid({ auctionId, userId, ammount }) {
   //all info needed.
   const auction = await Auction.findByPk(auctionId, {include:{ model: Bid}});
   const user = await User.findByPk(userId)
@@ -33,4 +33,4 @@ async function postBid({auctionId, userId, ammount}){
     }
 }
 
-module.exports = {postBid}
+module.exports = { postBid };

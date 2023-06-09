@@ -1,4 +1,10 @@
-const { Auction, Comment, CarDetail, User, Bid } = require("../../database/models");
+const {
+  Auction,
+  Comment,
+  CarDetail,
+  User,
+  Bid,
+} = require("../../database/models");
 
 async function fetchAuctions(req) {
   const pageAsNumber = Number.parseInt(req.query.page);
@@ -17,10 +23,7 @@ async function fetchAuctions(req) {
     const auctions = await Auction.findAndCountAll({
       limit: size,
       offset: page * size,
-      include: [
-        { model: User },
-        {model: CarDetail},
-      ],
+      include: [{ model: User }, { model: CarDetail }],
     });
 
     const totalPages = Math.ceil(auctions.count / size);
@@ -45,10 +48,10 @@ async function fetchAuction(req) {
   try {
     return await Auction.findByPk(auctionId, {
       include: [
-        {model: User},
-        {model: CarDetail},
-        {model: Bid},
-        {model: Comment}
+        { model: User },
+        { model: CarDetail },
+        { model: Bid },
+        { model: Comment },
       ],
     });
   } catch (error) {
@@ -66,12 +69,17 @@ async function editAuction(req) {
   }
 }
 
-async function createAuction({ carDetailId, userId, minPrice, sellerType, customEnd }) {
+async function createAuction({
+  carDetailId,
+  userId,
+  minPrice,
+  sellerType,
+  customEnd,
+}) {
   try {
     let userDB = await User.findByPk(userId);
 
     let carDetailDB = await CarDetail.findByPk(carDetailId);
-
 
     let checkExistingAuctionDB = await Auction.findOne({
       where: { UserId: userId },
@@ -86,12 +94,14 @@ async function createAuction({ carDetailId, userId, minPrice, sellerType, custom
       newAuction.setUser(userDB.dataValues.id);
       newAuction.setCarDetail(carDetailDB.dataValues.id);
 
-      const startAuction = new Date(newAuction.createdAt) //start of auction
-      const endAuction = startAuction.setDate(startAuction.getDate() + 7) //get end of auction
-      customEnd ? newAuction.endTime = customEnd : newAuction.endTime = endAuction //add end of auction (custom, or 7 days later)
+      const startAuction = new Date(newAuction.createdAt); //start of auction
+      const endAuction = startAuction.setDate(startAuction.getDate() + 7); //get end of auction
+      customEnd
+        ? (newAuction.endTime = customEnd)
+        : (newAuction.endTime = endAuction); //add end of auction (custom, or 7 days later)
       //saving changes
-      await newAuction.save()
-      return newAuction
+      await newAuction.save();
+      return newAuction;
     }
   } catch (error) {
     console.log("Could not create the auction", error.message);

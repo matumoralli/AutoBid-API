@@ -12,17 +12,30 @@ router.post(
 );
 //!
 
-router.put(
+router.post(
   "/user/:email/credit",
   middlewares.jwtCheckAdmin,
-  controllers.giveCredit,
+  controllers.giveUserCredit,
+);
+
+router.delete(
+  "/user/:email/delete-credit",
+  middlewares.jwtCheckAdmin,
+  controllers.deleteUserCredit,
 );
 
 router.put(
-  "/user/:email/remove-credit",
-  middlewares.jwtCheckAdmin,
-  controllers.removeCredit,
-);
+  "/user/:email/auction/:auctionId/assign",
+  [middlewares.jwtCheckUser, middlewares.checkUUIDV4],
+  controllers.assignAuctionCredit,
+  );
+
+router.put(
+  "/user/:email/auction/:auctionId/remove",
+  [middlewares.jwtCheckUser, middlewares.checkUUIDV4],
+  controllers.removeAuctionCredit,
+  );
+  
 
 router.put("/ban", middlewares.jwtCheckSuperAdmin, controllers.banUser);
 

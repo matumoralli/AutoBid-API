@@ -52,7 +52,7 @@ async function fetchOrCreate(req) {
   }
 }
 
-async function giveCredit(req) {
+async function giveUserCredit(req) {
   const { email } = req.params;
   try {
     const user = await User.findOne({
@@ -68,7 +68,7 @@ async function giveCredit(req) {
   }
 }
 
-async function removeCredit(req) {
+async function deleteUserCredit(req) {
   const { email } = req.params;
   try {
     const user = await User.findOne({
@@ -106,6 +106,12 @@ async function assignAuctionCredit(req) {
     });
     if (!userDB) throw new Error("User not found in DB");
 
+    const creditAssignedDB = await Credit.findOne({
+      where: { UserId: userDB.dataValues.id, AuctionId: auctionId },
+    });
+    if (creditAssignedDB)
+      throw new Error("The user already has a credit assigned to the auction");
+
     const creditToAssign = await Credit.findOne({
       where: { UserId: userDB.dataValues.id, AuctionId: null },
     });
@@ -114,6 +120,28 @@ async function assignAuctionCredit(req) {
     return creditToAssign.setAuction(auctionDB.dataValues.id);
   } catch (error) {
     console.log("Could not assign auction to credit:", error.message);
+  }
+}
+
+async function removeAuctionCredit(req) {
+  const { email, auctionId } = req.params;
+  try {
+    const auctionDB = await Auction.findByPk(auctionId);
+    if (!auctionDB) throw new Error("Auction not found in DB");
+
+    const userDB = await User.findOne({
+      where: { email: email },
+    });
+    if (!userDB) throw new Error("User not found in DB");
+
+    const creditToRemove = await Credit.findOne({
+      where: { UserId: userDB.dataValues.id, AuctionId: auctionId },
+    });
+    if (!creditToRemove) throw new Error("No available credit to remove");
+
+    return creditToRemove.setAuction(null);
+  } catch (error) {
+    console.log("Could not remove auction to credit:", error.message);
   }
 }
 
@@ -162,9 +190,10 @@ async function populateDB() {
 module.exports = {
   fetchUsers,
   fetchOrCreate,
-  giveCredit,
-  removeCredit,
+  giveUserCredit,
+  deleteUserCredit,
   assignAuctionCredit,
+  removeAuctionCredit,
   banUser,
   populateDB,
 };

@@ -17,18 +17,18 @@ async function postUser(req, res) {
   } else throw new ClientError("Error creating user", 404);
 }
 
-async function giveCredit(req, res) {
-  const userWCredit = await usersServices.giveCredit(req);
-  if (userWCredit) {
-    return response(res, 201, userWCredit);
+async function giveUserCredit(req, res) {
+  const createdCredit = await usersServices.giveUserCredit(req);
+  if (createdCredit) {
+    return response(res, 201, createdCredit);
   } else throw new ClientError("Error creating credit for user", 404);
 }
 
-async function removeCredit(req, res) {
-  const userWOCredit = await usersServices.removeCredit(req);
-  if (userWOCredit) {
-    return response(res, 201, userWOCredit);
-  } else throw new ClientError("Error removing credit from user", 404);
+async function deleteUserCredit(req, res) {
+  const deletedCredit = await usersServices.deleteUserCredit(req);
+  if (deletedCredit) {
+    return response(res, 201, deletedCredit);
+  } else throw new ClientError("Error deleting credit from user", 404);
 }
 
 async function assignAuctionCredit(req, res) {
@@ -36,6 +36,13 @@ async function assignAuctionCredit(req, res) {
   if (assignedCredit) {
     return response(res, 201, assignedCredit);
   } else throw new ClientError("Error assigning credit to auction", 404);
+}
+
+async function removeAuctionCredit(req, res) {
+  const removedCredit = await usersServices.removeAuctionCredit(req);
+  if (removedCredit) {
+    return response(res, 201, removedCredit);
+  } else throw new ClientError("Error removing credit from auction", 404);
 }
 
 async function banUser(req, res) {
@@ -48,10 +55,20 @@ async function banUser(req, res) {
 }
 
 async function populateDB(req, res) {
-  console.log('llegamos al controller')
+  console.log("llegamos al controller");
   const newUsers = await usersServices.populateDB();
   if (newUsers) response(res, 201, newUsers);
   else throw new ClientError("Error populating DB", 400);
 }
 
-module.exports = { getUsers, postUser, giveCredit, removeCredit, banUser, assignAuctionCredit, populateDB };
+module.exports = {
+  getUsers,
+  postUser,
+  giveUserCredit,
+  deleteUserCredit,
+  assignAuctionCredit,
+  removeAuctionCredit,
+  banUser,
+  assignAuctionCredit,
+  populateDB,
+};

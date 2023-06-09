@@ -24,6 +24,12 @@ router.put(
   controllers.removeCredit,
 );
 
+router.put(
+  "/user/:email/auction/:auctionId",
+  [middlewares.jwtCheckUser, middlewares.checkUUIDV4],
+  controllers.assignAuctionCredit,
+);
+
 router.put("/ban", middlewares.jwtCheckSuperAdmin, controllers.banUser);
 
 router.post("/populate", controllers.populateDB);

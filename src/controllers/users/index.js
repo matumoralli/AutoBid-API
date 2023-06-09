@@ -1,5 +1,5 @@
 const { catchedAsync } = require("../../utils");
-const { getUsers, postUser, banUser, populateDB, giveCredit, removeCredit } = require("./users.controllers");
+const { getUsers, postUser, banUser, populateDB, giveCredit, removeCredit, assignAuctionCredit } = require("./users.controllers");
 
 module.exports = {
   getUsers: catchedAsync(getUsers),
@@ -8,4 +8,5 @@ module.exports = {
   populateDB: catchedAsync(populateDB),
   giveCredit: catchedAsync(giveCredit),
   removeCredit: catchedAsync(removeCredit),
+  assignAuctionCredit: catchedAsync(assignAuctionCredit),
 };

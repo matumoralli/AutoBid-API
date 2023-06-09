@@ -1,4 +1,4 @@
-const { User, Credit } = require("../../database/models");
+const { User, Credit, Auction } = require("../../database/models");
 const { users } = require("../db.json");
 
 async function fetchUsers() {
@@ -78,15 +78,42 @@ async function removeCredit(req) {
       const creditToDelete = await Credit.findOne({
         where: { UserId: user.dataValues.id, AuctionId: null },
       });
+      if (!creditToDelete)
+        throw new Error(
+          "No available credit to delete. Remove a credit from an auction first."
+        );
 
       const creditDeleted = creditToDelete;
 
       creditToDelete.destroy();
+
       return creditDeleted;
     }
     throw new Error("User not found");
   } catch (error) {
-    console.log("Could not give credit to user:", error.message);
+    console.log("Could not delete credit from user:", error.message);
+  }
+}
+
+async function assignAuctionCredit(req) {
+  const { email, auctionId } = req.params;
+  try {
+    const auctionDB = await Auction.findByPk(auctionId);
+    if (!auctionDB) throw new Error("Auction not found in DB");
+
+    const userDB = await User.findOne({
+      where: { email: email },
+    });
+    if (!userDB) throw new Error("User not found in DB");
+
+    const creditToAssign = await Credit.findOne({
+      where: { UserId: userDB.dataValues.id, AuctionId: null },
+    });
+    if (!creditToAssign) throw new Error("No available credit to assign");
+
+    return creditToAssign.setAuction(auctionDB.dataValues.id);
+  } catch (error) {
+    console.log("Could not assign auction to credit:", error.message);
   }
 }
 
@@ -137,6 +164,7 @@ module.exports = {
   fetchOrCreate,
   giveCredit,
   removeCredit,
+  assignAuctionCredit,
   banUser,
   populateDB,
 };

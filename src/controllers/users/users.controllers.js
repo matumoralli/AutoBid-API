@@ -31,6 +31,13 @@ async function removeCredit(req, res) {
   } else throw new ClientError("Error removing credit from user", 404);
 }
 
+async function assignAuctionCredit(req, res) {
+  const assignedCredit = await usersServices.assignAuctionCredit(req);
+  if (assignedCredit) {
+    return response(res, 201, assignedCredit);
+  } else throw new ClientError("Error assigning credit to auction", 404);
+}
+
 async function banUser(req, res) {
   const banned = await usersServices.ban(req.body.userId); //error
   if (banned.isActive) {
@@ -47,4 +54,4 @@ async function populateDB(req, res) {
   else throw new ClientError("Error populating DB", 400);
 }
 
-module.exports = { getUsers, postUser, giveCredit, removeCredit, banUser, populateDB };
+module.exports = { getUsers, postUser, giveCredit, removeCredit, banUser, assignAuctionCredit, populateDB };

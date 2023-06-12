@@ -11,8 +11,22 @@ async function payCar(req, res) {
     else throw new ClientError("Error while trying to make the purchase ", 400);
 }
 
+async function webhookMercadoPago(req, res) {
+    const data = await paymentServices.SetPayment(req)
+    if (data) response(res, 200, data );
+    else throw new ClientError("Error", 400);
+}
+
+async function getPayment(req, res) {
+    const data = await paymentServices.fechPayments()
+    if (data) response(res, 200, data)
+    else throw new ClientError("Error trying to fetch payments", 400)
+}
+
 
 
 module.exports = {
-    payCar
+    payCar,
+    webhookMercadoPago,
+    getPayment
 }

@@ -16,8 +16,16 @@ module.exports = conn.define('Payment', {
         allowNull: false,
     },
     state:{
-        type: DataTypes.ENUM("success", "failure", "pending", "unknown"),
+        type: DataTypes.STRING,
         allowNull:false,
         defaultValue: "unknown"
+    },
+    transactionId: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    transactionAmount: {
+        type: DataTypes.INTEGER,
+        allowNull: true
     }
 })

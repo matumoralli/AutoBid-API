@@ -5,8 +5,20 @@ async function postBid({ auctionId, userId, ammount }) {
   const auction = await Auction.findByPk(auctionId, {include:{ model: Bid}});
   const user = await User.findByPk(userId)
   const lastBidAmmount = auction.Bids[auction.Bids.length -1].dataValues.ammount
+  const diferenceInMilliseconds = auction.endTime - new Date()//diferencia en milisegundos entre el tiempo de finalizacion de la subasta y el tiempo actual.
+
   
   try{
+    if(diferenceInMilliseconds < 0){
+      return("This auction has finished")
+    } else if (diferenceInMilliseconds < 60000){
+      let now = new Date()
+      let newEndTime = now.getTime() +60000
+      auction.endTime = newEndTime;
+      auction.save()
+    }
+
+
     if(lastBidAmmount < 50000){
       if(ammount >= lastBidAmmount + 100){
         console.log(lastBidAmmount + 100)

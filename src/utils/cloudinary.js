@@ -19,6 +19,9 @@ async function uploadImage(filePath) {
             return [imageUpload.url]
 
         } catch (error) {
+             //delete file
+             fs.unlinkSync(filePath.tempFilePath);
+             
             console.log("Error uploading the image ", error)
         }
     } else {
@@ -35,6 +38,9 @@ async function uploadImage(filePath) {
             })
             return imageUploades.map((e) => e.url)
         } catch (error) {
+            imagens.map((e) => {
+                fs.unlinkSync(e);
+            })
             console.log("Error uploading the images ", error)
         }
     }

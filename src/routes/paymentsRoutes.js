@@ -3,7 +3,9 @@ const controllers = require("../controllers/payment")
 
 
 
-router.post("/payCar", controllers.payCar)
+router.post("/payCar", controllers.payCar);
+router.post("/webhookMP", controllers.webhookMercadoPago)
+router.get("/", controllers.getPayment)
 
 
 

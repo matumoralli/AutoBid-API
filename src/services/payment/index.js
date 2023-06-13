@@ -1,8 +1,11 @@
-const { CreatePayLink, SetPayment, fechPayments } = require("./payment.service");
+const { createPayLink, setPayment, fechPayments, createCreditsPayment, fechCreditsPayment, setCreditPayment} = require("./payment.service");
 
 
 module.exports = {
-    CreatePayLink: async (body) => await CreatePayLink(body),
-    SetPayment: async (req) => await SetPayment(req),
-    fechPayments: async () => await fechPayments()
+    createPayLink: async (body) => await createPayLink(body),
+    setPayment: async (req) => await setPayment(req),
+    fechPayments: async () => await fechPayments(),
+    createCreditsPayment: async (req) => await createCreditsPayment(req),
+    fechCreditsPayment : async () => await fechCreditsPayment(),
+    setCreditPayment: async (req) => await setCreditPayment(req)
 }

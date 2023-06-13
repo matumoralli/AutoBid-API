@@ -6,5 +6,6 @@ module.exports = {
   Reply: require('./reply.model'),  
   Payment: require('./payment.model'),
   User: require('./user.model'),
-  Credit: require('./credit.model')
+  Credit: require('./credit.model'),
+  PaymentCredit: require('./paymentCredit.model')
 }

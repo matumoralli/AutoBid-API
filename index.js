@@ -8,7 +8,8 @@ const {
   Bid,
   CarDetail,
   Payment,
-  Credit
+  Credit,
+  PaymentCredit
 } = require("./src/database/models");
 
 const PORT = 8000;
@@ -60,6 +61,9 @@ User.hasMany(Payment)
 //Payment 1 == 1 CardDetails
 CarDetail.hasOne(Payment)
 Payment.belongsTo(CarDetail)
+
+PaymentCredit.hasOne(User);
+User.belongsTo(PaymentCredit);
 
 
 conn.sync({ force: false }).then(() => {

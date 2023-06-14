@@ -1,4 +1,4 @@
-const { STRING, UUID, UUIDV4, INTEGER, ARRAY, BLOB} = require("sequelize");
+const { STRING, UUID, UUIDV4, INTEGER, ARRAY, BLOB } = require("sequelize");
 const { conn } = require("../db.js");
 
 module.exports = conn.define("CarDetail", {
@@ -24,7 +24,7 @@ module.exports = conn.define("CarDetail", {
     allowNull: false,
   },
   domain: {
-    type: BLOB,
+    type: STRING,
     allowNull: false,
   },
   owner: {
@@ -58,29 +58,35 @@ module.exports = conn.define("CarDetail", {
   highlights: {
     type: ARRAY(STRING),
     allowNull: false,
+    defaultValue: [],
   },
   equipement: {
     type: ARRAY(STRING),
     allowNull: false,
+    defaultValue: [],
   },
   modifications: {
     type: ARRAY(STRING),
     allowNull: true,
+    defaultValue: [],
   },
   knownFlaws: {
     type: ARRAY(STRING),
     allowNull: false,
+    defaultValue: [],
   },
   services: {
     type: ARRAY(STRING),
     allowNull: false,
+    defaultValue: [],
   },
   addedItems: {
     type: ARRAY(STRING),
     allowNull: true,
+    defaultValue: [],
   },
   inspection: {
-    type: BLOB,
+    type: STRING,
     defaultValue: false,
   },
   images: {

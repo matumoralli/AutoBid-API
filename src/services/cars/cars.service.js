@@ -3,6 +3,7 @@ const {
   uploadImage,
   uploadMultipleImages,
   deleteImageByUrl,
+  uploadPDF,
 } = require("../../utils/cloudinary");
 const { cars } = require("../db.json");
 
@@ -50,8 +51,16 @@ async function createCarDetail(
   },
   { domain, inspection, image }
 ) {
+  const arrayHighlights = Array.isArray(highlights) ? highlights : [highlights]
+  const arrayEquipement = Array.isArray(equipement) ? equipement : [equipement]
+  const arrayModifications = Array.isArray(modifications) ? modifications : [modifications]
+  const arrayKnownFlaws = Array.isArray(knownFlaws) ? knownFlaws : [knownFlaws]
+  const arrayServices = Array.isArray(services) ? services : [services]
+  const arrayAddedItems = Array.isArray(addedItems) ? addedItems : [addedItems]
+
+
   try {
-    let userDB = await User.findOne({
+    const userDB = await User.findOne({
       where: { email: email },
     });
 
@@ -59,7 +68,7 @@ async function createCarDetail(
       throw new Error("There is no User in DB with given email");
     }
 
-    let carDB = await CarDetail.findOne({
+    const carDB = await CarDetail.findOne({
       where: {
         brand: brand,
         model: model,
@@ -71,7 +80,7 @@ async function createCarDetail(
         bodyType: bodyType,
       },
     });
-    console.log("pasamos findOne");
+
     if (carDB) {
       throw new Error("There is already a car in DB with given details");
     }
@@ -79,29 +88,31 @@ async function createCarDetail(
     if (image !== null) {
       images = await uploadImage(image);
     }
+    const domainFileUrl = await uploadPDF(domain)
+    const inspectionFileUrl = await uploadPDF(inspection)
 
     const newCarDetail = await CarDetail.create({
       brand,
       model,
       year,
       kilometers,
-      domain,
+      domain : domainFileUrl,
       owner,
       engine,
       transmission,
       driveTrain,
       bodyType,
       color,
-      highlights,
-      equipement,
-      modifications,
-      knownFlaws,
-      services,
-      addedItems,
-      inspection,
+      highlights: arrayHighlights,
+      equipement: arrayEquipement,
+      modifications: arrayModifications,
+      knownFlaws: arrayKnownFlaws,
+      services: arrayServices,
+      addedItems: arrayAddedItems,
+      inspection: inspectionFileUrl,
       images,
     });
-    
+
     return newCarDetail.setUser(userDB.dataValues.id);
   } catch (error) {
     console.log(

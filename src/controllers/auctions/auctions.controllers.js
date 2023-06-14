@@ -13,7 +13,7 @@ async function getAuctions(req,res) {
 async function getAuction(req,res) {
     const auction = await auctionServices.get(req);
     if(auction) response(res, 200, auction);
-    else throw new ClientError("Auction Not found with ID: "+req.params.id, 400)
+    else throw new ClientError("Auction Not found with ID: "+ req.params.id, 400)
 
 }
 

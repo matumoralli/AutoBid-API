@@ -14,13 +14,25 @@ async function fetchCars() {
   }
 }
 
+async function fetchCar() {
+  const { carId } = req.params;
+  try {
+    const carDB = await CarDetail.findOne({
+      where: { id: carId },
+    });
+    if (!carDB) throw new Error("Could not find car in DB with given ID");
+    return carDB;
+  } catch (error) {
+    console.log("Could not fetch car from DB", error.message);
+  }
+}
+
 async function createCarDetail(
   {
     brand,
     model,
     year,
     kilometers,
-    domain,
     owner,
     engine,
     transmission,
@@ -33,11 +45,10 @@ async function createCarDetail(
     knownFlaws,
     services,
     addedItems,
-    checked,
     images,
     email,
   },
-  { image }
+  { domain, inspection, image }
 ) {
   try {
     let userDB = await User.findOne({
@@ -50,27 +61,17 @@ async function createCarDetail(
 
     let carDB = await CarDetail.findOne({
       where: {
-        brand,
-        model,
-        year,
-        kilometers,
-        domain,
-        owner,
-        engine,
-        transmission,
-        driveTrain,
-        bodyType,
-        color,
-        highlights,
-        equipement,
-        modifications,
-        knownFlaws,
-        services,
-        addedItems,
-        checked,
+        brand: brand,
+        model: model,
+        year: year,
+        owner: owner,
+        engine: engine,
+        transmission: transmission,
+        driveTrain: driveTrain,
+        bodyType: bodyType,
       },
     });
-
+    console.log("pasamos findOne");
     if (carDB) {
       throw new Error("There is already a car in DB with given details");
     }
@@ -97,11 +98,11 @@ async function createCarDetail(
       knownFlaws,
       services,
       addedItems,
-      checked,
+      inspection,
       images,
     });
+    
     return newCarDetail.setUser(userDB.dataValues.id);
-
   } catch (error) {
     console.log(
       "There has been an error in services trying to create a car:",
@@ -158,6 +159,7 @@ async function removeImage({ carId }, { imageUrl }) {
 
 module.exports = {
   fetchCars,
+  fetchCar,
   createCarDetail,
   populateDB,
   createImage,

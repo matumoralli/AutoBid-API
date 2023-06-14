@@ -1,19 +1,10 @@
-const {
-  STRING,
-  UUID,
-  UUIDV4,
-  INTEGER,
-  BOOLEAN,
-  TEXT,
-  ARRAY,
-  DataTypes,
-} = require("sequelize");
+const { STRING, UUID, UUIDV4, INTEGER, ARRAY, BLOB} = require("sequelize");
 const { conn } = require("../db.js");
 
 module.exports = conn.define("CarDetail", {
   id: {
     type: UUID,
-    defaultValue: DataTypes.UUIDV4,
+    defaultValue: UUIDV4,
     primaryKey: true,
   },
   brand: {
@@ -33,7 +24,7 @@ module.exports = conn.define("CarDetail", {
     allowNull: false,
   },
   domain: {
-    type: STRING,
+    type: BLOB,
     allowNull: false,
   },
   owner: {
@@ -65,37 +56,36 @@ module.exports = conn.define("CarDetail", {
     allowNull: false,
   },
   highlights: {
-    type: TEXT,
+    type: ARRAY(STRING),
     allowNull: false,
   },
   equipement: {
-    type: TEXT,
+    type: ARRAY(STRING),
     allowNull: false,
   },
   modifications: {
-    type: TEXT,
-    allowNull: false,
+    type: ARRAY(STRING),
+    allowNull: true,
   },
   knownFlaws: {
-    type: TEXT,
+    type: ARRAY(STRING),
     allowNull: false,
   },
   services: {
-    type: TEXT,
+    type: ARRAY(STRING),
     allowNull: false,
   },
   addedItems: {
-    type: TEXT,
-    allowNull: false,
+    type: ARRAY(STRING),
+    allowNull: true,
   },
-  checked: {
-    type: BOOLEAN,
+  inspection: {
+    type: BLOB,
     defaultValue: false,
   },
   images: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
+    type: ARRAY(STRING),
     allowNull: true,
-    defaultValue: []
-  }
-
+    defaultValue: [],
+  },
 });

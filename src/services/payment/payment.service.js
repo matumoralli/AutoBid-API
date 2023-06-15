@@ -1,7 +1,7 @@
 const { Auction, CarDetail, Payment, User, PaymentCredit } = require("../../database/models");
 const axios = require("axios");
 
-const { INICIO_AUTOBID, URL_MERCADOPAGO_API, ACCESS_TOKEN_MERCADOPAGO, CURRENT_URL_API, URL_WEBHOOK_MERCADOPAGO } = process.env
+const { INICIO_AUTOBID, URL_MERCADOPAGO_API, ACCESS_TOKEN_MERCADOPAGO, CURRENT_URL_API, URL_WEBHOOK_MERCADOPAGO, PRECIO_POR_CREDITO } = process.env
 
 
 async function fechPayments(params) {
@@ -127,7 +127,7 @@ async function createCreditsPayment({ body }) {
     items: [
       {
         quantity: 1,
-        unit_price: 1,
+        unit_price: parseInt(process.env.PRECIO_POR_CREDITO),
         title: "Crédito",
         description: "Crédito en AutoBid",
         currency_id: "ARS",

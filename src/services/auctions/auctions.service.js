@@ -50,8 +50,8 @@ async function fetchAuction(req) {
       include: [
         { model: User },
         { model: CarDetail },
-        { model: Bid },
-        { model: Comment },
+        { model: Bid, include: { model: User } },
+        { model: Comment, include: { model: User } },
       ],
     });
   } catch (error) {

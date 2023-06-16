@@ -133,3 +133,4 @@ package-lock.json
 .vscode
 
 uploads/
+.uploads

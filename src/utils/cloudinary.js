@@ -45,20 +45,19 @@ async function uploadImage(filePath) {
 
 async function uploadPDF(filePath) {
   try {
-
-    const pdfUploaded = await v2.uploader.upload(filePath.tempFilePath);
+    const pdfUploaded = await v2.uploader.upload(filePath.tempFilePath, {
+      resource_type: "raw",
+    });
 
     //delete file
     fs.unlinkSync(filePath.tempFilePath);
-
-    console.log(pdfUploaded);
 
     return pdfUploaded.url;
   } catch (error) {
     //delete file
     fs.unlinkSync(filePath.tempFilePath);
 
-    console.log("Error uploading the image ", error);
+    console.log("Error uploading the PDF ", error);
   }
 }
 

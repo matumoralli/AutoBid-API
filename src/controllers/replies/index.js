@@ -1,6 +1,7 @@
 const {catchedAsync} = require("../../utils");
-const {getReplies} = require("./replies.controllers");
+const {getReplies, postReply} = require("./replies.controllers");
 
 module.exports = {
-    getReplies: catchedAsync(getReplies)
+    getReplies: catchedAsync(getReplies),
+    postReply: catchedAsync(postReply)
 }

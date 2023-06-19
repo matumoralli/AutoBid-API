@@ -8,6 +8,12 @@ async function getCars(req, res) {
   else throw new ClientError("No cars found", 404);
 }
 
+async function getCar(req, res) {
+  const car = await carsServices.fetch(req);
+  if (car) return response(res, 200, car);
+  else throw new ClientError("Car not found", 404);
+}
+
 async function postCar(req, res) {
   const newCar = await carsServices.create(req.body, req.files);
   if (newCar) response(res, 201, newCar);
@@ -32,4 +38,4 @@ async function deleteImage(req, res) {
   else throw new ClientError("Error deleting image");
 }
 
-module.exports = { getCars, postCar, populateDB, postImage, deleteImage };
+module.exports = { getCars, getCar, postCar, populateDB, postImage, deleteImage };

@@ -5,6 +5,8 @@ const middlewares = require("../middlewares");
 
 router.get("/", controllers.getCars);
 
+router.get("/car/:carId", controllers.getCars);
+
 router.post("/", controllers.postCar);
 
 router.post("/populate", controllers.populateDB);

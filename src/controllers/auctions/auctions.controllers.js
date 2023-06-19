@@ -6,14 +6,14 @@ const { ClientError } = require("../../utils/errors");
 async function getAuctions(req,res) {
     const auctions = await auctionServices.list(req);
     if(auctions) response(res, 200, auctions)
-    else throw new ClientError("Not Auctions found", 404); 
+    else throw new ClientError("No Auctions found", 404); 
 }
 
 
 async function getAuction(req,res) {
     const auction = await auctionServices.get(req);
     if(auction) response(res, 200, auction);
-    else throw new ClientError("Auction Not found with ID: "+req.params.id, 400)
+    else throw new ClientError("Auction Not found with ID: "+ req.params.id, 400)
 
 }
 

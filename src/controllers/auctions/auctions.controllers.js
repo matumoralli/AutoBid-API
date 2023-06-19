@@ -6,7 +6,7 @@ const { ClientError } = require("../../utils/errors");
 async function getAuctions(req,res) {
     const auctions = await auctionServices.list(req);
     if(auctions) response(res, 200, auctions)
-    else throw new ClientError("Not Auctions found", 404); 
+    else throw new ClientError("No Auctions found", 404); 
 }
 
 

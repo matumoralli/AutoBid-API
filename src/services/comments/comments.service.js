@@ -14,7 +14,7 @@ async function postComment(req) {
       throw new Error("There is no User in DB with given ID");
     }
 
-    const newComment = await Comment.create({content: comment});
+    const newComment = await Comment.create({ content: comment });
     newComment.setAuction(auctionDB.dataValues.id);
     return newComment.setUser(userDB.dataValues.id);
   } catch (error) {

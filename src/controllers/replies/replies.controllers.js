@@ -11,4 +11,12 @@ async function getReplies(req, res) {
       `Error: No REPLIES were found for the comments with id: ${commentId}.`, 404);
 }
 
-module.exports = { getReplies };
+async function postReply(req, res) {
+  const reply = await repliesServices.create(req);
+  if (reply) response(res, 200, reply);
+  else
+    throw new ClientError(
+      `Error creating reply`, 404);
+}
+
+module.exports = { getReplies, postReply };

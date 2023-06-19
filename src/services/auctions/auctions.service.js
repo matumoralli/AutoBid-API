@@ -4,6 +4,7 @@ const {
   CarDetail,
   User,
   Bid,
+  Reply,
 } = require("../../database/models");
 
 async function fetchAuctions(req) {
@@ -51,7 +52,7 @@ async function fetchAuction(req) {
         { model: User },
         { model: CarDetail },
         { model: Bid, include: { model: User } },
-        { model: Comment, include: { model: User } },
+        { model: Comment, include: [{ model: User }, {model: Reply}] },
       ],
     });
   } catch (error) {

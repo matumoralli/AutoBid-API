@@ -20,7 +20,7 @@ async function fetchReply(req) {
   try {
     const replyDB = await Reply.findByPk(replyId);
     if (!replyDB) {
-      throw new Error("There is no reply in DB with given ID");
+      throw new Error(`There is no reply in DB with given ID: ${replyId}`);
     }
     return replyDB;
   } catch (error) {
@@ -37,11 +37,11 @@ async function postReply(req) {
   try {
     const commentDB = await Comment.findByPk(commentId);
     if (!commentDB) {
-      throw new Error("There is no Comment in DB with given ID");
+      throw new Error(`There is no Comment in DB with given ID: ${commentId}`);
     }
     const userDB = await User.findByPk(userId);
     if (!userDB) {
-      throw new Error("There is no User in DB with given ID");
+      throw new Error(`There is no User in DB with given ID: ${userId}`);
     }
 
     const newReply = await Reply.create({ content: reply });

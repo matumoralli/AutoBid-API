@@ -1,4 +1,19 @@
-const { Auction, Comment, User } = require("../../database/models");
+const { Auction, Comment, User, Reply } = require("../../database/models");
+
+async function getComment(req) {
+  const { commentId } = req.params;
+  try {
+    const commentDB = await Comment.findByPk(commentId, {
+      include: [{ model: User }, { model: Reply }],
+    });
+    if (!commentDB) {
+      throw new Error("There is no Comment in DB with given ID");
+    }
+    return commentDB;
+  } catch (error) {
+    console.log("Could not get comment", error.message);
+  }
+}
 
 async function postComment(req) {
   const { userId } = req.params;
@@ -22,4 +37,4 @@ async function postComment(req) {
   }
 }
 
-module.exports = { postComment };
+module.exports = { postComment, getComment };

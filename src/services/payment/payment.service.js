@@ -4,6 +4,7 @@ const {
   Payment,
   User,
   PaymentCredit,
+  Credit,
 } = require("../../database/models");
 const axios = require("axios");
 
@@ -138,6 +139,10 @@ async function createCreditsPayment({ body }) {
   const paymentCredit = await PaymentCredit.create();
   await paymentCredit.setUser(body.buyerId);
 
+  //! se crea un crédito para uso en el frontend. Esta función después debería moverse a la función setCreditPayment, luego del checkout de Mercadopago
+  const newCredit = await Credit.create();
+  await newCredit.setUser(body.buyerId);
+
   //se crear el objeto que se enviara por body a mercado pago
   const BodyMercadoPago = {
     items: [
@@ -167,7 +172,7 @@ async function createCreditsPayment({ body }) {
     },
   });
 
-  return data.init_point;
+  return {URL: data.init_point, newCredit};
 }
 
 async function setCreditPayment(req) {

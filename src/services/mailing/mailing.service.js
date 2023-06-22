@@ -107,12 +107,12 @@ function offerExceededEmail({email}) {
 });
 }
 //recibe el email ademas de los datos del vendedor
-function winnerEmail({sellerEmail, sellerNum, sellerEmail, email}) {
+function winnerEmail({sellerName, sellerNum, sellerEmail, email}) {
   const mailOptions = {
     from: process.env.GMAIL_ACCOUNT, 
     to: email,
     subject: "AutoBid",
-    html: elGanador({email:sellerEmail, num:sellerNum, email:sellerEmail}),
+    html: elGanador({email:sellerEmail, num:sellerNum, name:sellerName}),
   };
   
   transporter.sendMail(mailOptions, (error, info) => {

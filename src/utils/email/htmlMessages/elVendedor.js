@@ -1,4 +1,4 @@
-export default function elVendedor({name, email, num}) {
+function elVendedor({name, email, num}) {
     return `
     <html>
     <body style="text-align: center; margin: 3%; font-family: Arial, Helvetica, sans-serif;">
@@ -54,3 +54,5 @@ export default function elVendedor({name, email, num}) {
     </html>
     `
 }
+
+module.export = elVendedor

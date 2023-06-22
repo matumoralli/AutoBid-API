@@ -1,4 +1,4 @@
-export default function pagaAuto(link) {
+function pagaAuto(link) {
     return `
     <html>
     <body style="text-align: center; font-family: Arial, Helvetica, sans-serif;">
@@ -18,3 +18,5 @@ export default function pagaAuto(link) {
     </html>
     `
 }
+
+module.export = pagaAuto

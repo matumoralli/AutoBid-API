@@ -9,6 +9,12 @@ async function getUsers(req, res) {
   else throw new ClientError("No users found", 404);
 }
 
+async function getUserAuctions(req, res) {
+  const auctions = await usersServices.listAuctions(req);
+  if (auctions) response(res, 200, auctions);
+  else throw new ClientError("No auctions found", 404);
+}
+
 async function postUser(req, res) {
   const newUser = await usersServices.fetchOrCreate(req);
   if (newUser) {
@@ -63,6 +69,7 @@ async function populateDB(req, res) {
 
 module.exports = {
   getUsers,
+  getUserAuctions,
   postUser,
   giveUserCredit,
   deleteUserCredit,

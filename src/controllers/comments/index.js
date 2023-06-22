@@ -1,6 +1,7 @@
 const { catchedAsync } = require("../../utils");
-const { postComment } = require('./comments.controllers')
+const { postComment, getComment } = require("./comments.controllers");
 
 module.exports = {
-  postComment: catchedAsync(postComment)
-}
+  postComment: catchedAsync(postComment),
+  getComment: catchedAsync(getComment),
+};

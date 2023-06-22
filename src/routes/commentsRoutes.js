@@ -1,6 +1,6 @@
 const router = require("express").Router();
+const comment = require("../controllers/comments")
 
-
-router.get("/", (req,res)=>res.send("message"))
+router.get("/:commentId", comment.getComment)
 
 module.exports = router;

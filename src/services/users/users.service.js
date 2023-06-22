@@ -1,4 +1,5 @@
-const { User, Credit, Auction } = require("../../database/models");
+const { where } = require("sequelize");
+const { User, Credit, Auction, CarDetail } = require("../../database/models");
 const { users } = require("../db.json");
 
 async function fetchUsers() {
@@ -12,6 +13,32 @@ async function fetchUsers() {
     return usersDB;
   } catch (error) {
     console.log("Could not fetch Users from DB:", error.message);
+  }
+}
+
+async function fetchUserAuctions(req) {
+  const { userId } = req.params;
+  console.log(userId);
+  try {
+
+    const userDB = await User.findByPk(userId, {
+      attributes:["id"],
+      include: {
+        model: Credit,
+        attributes: ["id"],
+        include: {
+          model: Auction,
+          attributes: ["id"],
+          include: { model: CarDetail },
+        },
+      },
+    });
+
+    const auctionsArray = [...userDB.Credits.map((credit) => credit.Auction.CarDetail)]
+
+    return auctionsArray;
+  } catch (error) {
+    console.log("Could not fetch auctions where User has assigned credits:", error.message);
   }
 }
 
@@ -189,6 +216,7 @@ async function populateDB() {
 
 module.exports = {
   fetchUsers,
+  fetchUserAuctions,
   fetchOrCreate,
   giveUserCredit,
   deleteUserCredit,

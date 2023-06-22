@@ -21,7 +21,7 @@ async function fetchCar() {
     const carDB = await CarDetail.findOne({
       where: { id: carId },
     });
-    if (!carDB) throw new Error("Could not find car in DB with given ID");
+    if (!carDB) throw new Error("Could not find car in DB with given ID:", carId);
     return carDB;
   } catch (error) {
     console.log("Could not fetch car from DB", error.message);
@@ -65,7 +65,7 @@ async function createCarDetail(
     });
 
     if (!userDB) {
-      throw new Error("There is no User in DB with given email");
+      throw new Error("There is no User in DB with given email:", email);
     }
 
     const carDB = await CarDetail.findOne({
@@ -146,7 +146,7 @@ async function createImage({ carId }, { image }) {
       await car.save();
       return car;
     }
-    throw new Error("car with id " + carId + " not exist");
+    throw new Error("There is no car in DB with given id:", carId);
   } catch (error) {
     console.log("Error trying to save the image", error);
   }

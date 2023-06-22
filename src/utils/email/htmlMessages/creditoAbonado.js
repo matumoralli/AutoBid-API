@@ -17,4 +17,4 @@ function creditoAbonado() {
     </html>
     `
 }
-export default creditoAbonado
+module.export = creditoAbonado

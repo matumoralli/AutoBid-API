@@ -1,4 +1,4 @@
-export default function bienvenida(params) {
+function bienvenida(params) {
     return`
     <html>
     <body style="text-align: center; font-family: Arial, Helvetica, sans-serif;">
@@ -24,3 +24,5 @@ export default function bienvenida(params) {
     </html>
     `
 }
+
+module.export = bienvenida

@@ -1,4 +1,4 @@
-export default function elGanador({name, email, num}) {
+ function elGanador({name, email, num}) {
 
 
     return `
@@ -45,3 +45,5 @@ export default function elGanador({name, email, num}) {
     </html>
     `
 };
+
+module.export = elGanador

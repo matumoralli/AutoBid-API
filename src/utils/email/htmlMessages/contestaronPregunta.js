@@ -1,4 +1,4 @@
-export default function contestaronPregunta(params) {
+function contestaronPregunta(params) {
     return `
     <html>
     <body style="text-align: center;">
@@ -13,3 +13,5 @@ export default function contestaronPregunta(params) {
     
     `
 }
+
+module.export = contestaronPregunta

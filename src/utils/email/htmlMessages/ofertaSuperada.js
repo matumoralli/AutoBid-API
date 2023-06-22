@@ -1,6 +1,5 @@
 const {INICIO_AUTOBID} = process.env
-
-export default function ofertaSuperada(params) {
+ function ofertaSuperada(params) {
     return `
     <html>
     <body style="text-align: center;">
@@ -18,3 +17,5 @@ export default function ofertaSuperada(params) {
     
     `
 }
+
+module.export = ofertaSuperada

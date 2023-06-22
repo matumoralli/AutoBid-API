@@ -4,6 +4,7 @@ async function postBid(req) {
   const { userId } = req.params;
   const { auctionId, ammount } = req.body;
   //all info needed.
+  console.log(userId, auctionId, ammount);
   const auctionDB = await Auction.findByPk(auctionId, {
     include: { model: Bid },
   });
@@ -25,7 +26,7 @@ async function postBid(req) {
     }
 
     if (!lastBidAmmount && ammount >= auctionDB.minPrice) {
-      console.log("primera oferta");
+      console.log("primera oferta", ammount);
       const bid = await Bid.create({ ammount: ammount });
       bid.setUser(userDB.dataValues.id);
       bid.setAuction(auctionDB.dataValues.id);

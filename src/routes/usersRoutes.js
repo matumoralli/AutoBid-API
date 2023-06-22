@@ -4,6 +4,8 @@ const middlewares = require("../middlewares");
 
 router.get("/", middlewares.jwtCheckAdmin, controllers.getUsers);
 
+router.get("/user/auctions/:userId",  controllers.getUserAuctions);
+
 //! La ruta de abajo busca un usuario con el mail en la query, y si no lo encuentra, lo crea. Funciona como GET y POST.
 router.post(
   "/user/:email",

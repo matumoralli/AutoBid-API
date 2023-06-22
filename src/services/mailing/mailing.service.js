@@ -1,16 +1,21 @@
 const transporter = require("../../utils/email")
-const {INICIO_AUTOBID, VENDETUAUTO_AUTOBID} = process.env
+const bienvenida = require("../../utils/email/htmlMessages/bienvenida");
+const contestaronPregunta = require("../../utils/email/htmlMessages/contestaronPregunta")
+const creditoAbonado = require("../../utils/email/htmlMessages/creditoAbonado")
+const ofertaSuperada = require("../../utils/email/htmlMessages/ofertaSuperada")
+const pagaAuto = require("../../utils/email/htmlMessages/pagaAuto")
+const elGanador = require("../../utils/email/htmlMessages/elGanador")
+const elVendedor = require("../../utils/email/htmlMessages/elVendedor")
 
 
-
-function welcomeEmail(email) {
-  // const { destinatario, asunto, mensaje } = req.body;
+//todos los Emails reciben el corre del usuario 
+function welcomeEmail({email}) {
 
   const mailOptions = {
-    from: 'meetapp.nc@gmail.com', // Reemplaza con tu correo electrónico
+    from: process.env.GMAIL_ACCOUNT,
     to: email,
     subject: "AutoBid",
-    html: mensaje,
+    html: bienvenida(),
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -21,38 +26,134 @@ function welcomeEmail(email) {
       console.log('Correo enviado: ' + info.response);
       return 'Correo enviado correctamente'
     }
-  
 });
-
-
 }
 
-const mensaje = `
-<html>
-<body style="text-align: center;">
-<div >
-<img src="https://i.postimg.cc/nzJt61dB/Logo.png" alt="Imagen" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
-</div>
-<br/>
-<br/>
-  <h3>¡Gracias por unirte a AutoBid! Estamos encantados de tenerte como nuevo miembro de la comunidad. A continuación hay algunos enlaces rápidos para ayudarte a comenzar.</h3>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <a target="_blank" href=${INICIO_AUTOBID}>Encontrá el auto perfecto</a>
-  <p>Busca el vehículo de tus sueños, entra en nuestro inicio y verás gran cantidad de vehículos, ¡y todos ellos interesantes!</p>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <a target="_blank" href=${VENDETUAUTO_AUTOBID}>Vende tu automóvil</a>
-  <p>AutoBid es el mejor lugar para vender su vehículo interesante! Es gratis vender, y nuestra gran comunidad de usuarios dará como resultado una venta exitosa. Revisaremos su envío dentro de un día hábil y podemos poner en marcha su subasta rápidamente, ¡generalmente dentro de una semana!</p>
-  </body>
-</html>
-`;
+function answeredQuestionEmail({email}) {
+  
+  
+  const mailOptions = {
+    from: process.env.GMAIL_ACCOUNT, 
+    to: email,
+    subject: "AutoBid",
+    html: contestaronPregunta(),
+  };
+  
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+      return 'Error al enviar el correo'
+    } else {
+      console.log('Correo enviado: ' + info.response);
+      return 'Correo enviado correctamente'
+    }
+});
+}
+
+function creditPurchasedEmail({email}) {
+  const mailOptions = {
+    from: process.env.GMAIL_ACCOUNT, 
+    to: email,
+    subject: "AutoBid",
+    html: creditoAbonado(),
+  };
+  
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+      return 'Error al enviar el correo'
+    } else {
+      console.log('Correo enviado: ' + info.response);
+      return 'Correo enviado correctamente'
+    }
+});
+}
+
+function offerExceededEmail({email}) {
+  const mailOptions = {
+    from: process.env.GMAIL_ACCOUNT, 
+    to: email,
+    subject: "AutoBid",
+    html: ofertaSuperada(),
+  };
+  
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+      return 'Error al enviar el correo'
+    } else {
+      console.log('Correo enviado: ' + info.response);
+      return 'Correo enviado correctamente'
+    }
+});
+}
+//recibe el email del usuario y el link de mercadopago
+ function payTheCarEmail({link, email}) {
+  const mailOptions = {
+    from: process.env.GMAIL_ACCOUNT, 
+    to: email,
+    subject: "AutoBid",
+    html: pagaAuto(link),
+  };
+  
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+      return 'Error al enviar el correo'
+    } else {
+      console.log('Correo enviado: ' + info.response);
+      return 'Correo enviado correctamente'
+    }
+});
+}
+//recibe el email ademas de los datos del vendedor
+function winnerEmail({sellerEmail, sellerNum, sellerEmail, email}) {
+  const mailOptions = {
+    from: process.env.GMAIL_ACCOUNT, 
+    to: email,
+    subject: "AutoBid",
+    html: elGanador({email:sellerEmail, num:sellerNum, email:sellerEmail}),
+  };
+  
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+      return 'Error al enviar el correo'
+    } else {
+      console.log('Correo enviado: ' + info.response);
+      return 'Correo enviado correctamente'
+    }
+});
+}
+//recibe el email ademas de los datos del ganador de la subasta
+function auctioneerEmail({buyerName, buyerNum, buyerEmail, email}) {
+  const mailOptions = {
+    from: process.env.GMAIL_ACCOUNT, 
+    to: email,
+    subject: "AutoBid",
+    html: elVendedor({name:buyerName, num:buyerNum, email:buyerEmail}),
+  };
+  
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+      return 'Error al enviar el correo'
+    } else {
+      console.log('Correo enviado: ' + info.response);
+      return 'Correo enviado correctamente'
+    }
+});
+}
+
+
 
 
 module.exports = {
-    welcomeEmail
+    welcomeEmail,
+    answeredQuestionEmail,
+    creditPurchasedEmail,
+    offerExceededEmail,
+    payTheCarEmail,
+    winnerEmail,
+    auctioneerEmail
 }

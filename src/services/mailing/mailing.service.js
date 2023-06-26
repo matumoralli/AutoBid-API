@@ -107,24 +107,25 @@ function offerExceededEmail({email}) {
 });
 }
 //recibe el email ademas de los datos del vendedor
-function winnerEmail({sellerEmail, sellerNum, sellerEmail, email}) {
-  const mailOptions = {
-    from: process.env.GMAIL_ACCOUNT, 
-    to: email,
-    subject: "AutoBid",
-    html: elGanador({email:sellerEmail, num:sellerNum, email:sellerEmail}),
-  };
+function winnerEmail({sellerEmail, sellerNum, email}) {
+//   const mailOptions = {
+//     from: process.env.GMAIL_ACCOUNT, 
+//     to: email,
+//     subject: "AutoBid",
+//     html: elGanador({email:sellerEmail, num:sellerNum, email:sellerEmail}),
+//   };
   
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-      return 'Error al enviar el correo'
-    } else {
-      console.log('Correo enviado: ' + info.response);
-      return 'Correo enviado correctamente'
-    }
-});
+//   transporter.sendMail(mailOptions, (error, info) => {
+//     if (error) {
+//       console.log(error);
+//       return 'Error al enviar el correo'
+//     } else {
+//       console.log('Correo enviado: ' + info.response);
+//       return 'Correo enviado correctamente'
+//     }
+// });
 }
+
 //recibe el email ademas de los datos del ganador de la subasta
 function auctioneerEmail({buyerName, buyerNum, buyerEmail, email}) {
   const mailOptions = {

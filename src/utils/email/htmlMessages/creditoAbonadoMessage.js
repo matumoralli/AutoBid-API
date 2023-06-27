@@ -1,10 +1,10 @@
 
 
 
-function creditoAbonado() {
+function creditoAbonadoMessage() {
     return `
     <html>
-    <body style="text-align: center;">
+    <body style="text-align: center; font-family: Arial, Helvetica, sans-serif; margin-left: 15%; margin-right: 15%;">
     <div >
     <img src="https://i.postimg.cc/nzJt61dB/Logo.png" alt="Imagen" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
     </div>
@@ -17,4 +17,4 @@ function creditoAbonado() {
     </html>
     `
 }
-module.export = creditoAbonado
+module.exports = creditoAbonadoMessage

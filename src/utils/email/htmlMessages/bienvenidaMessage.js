@@ -1,7 +1,7 @@
-function bienvenida(params) {
+const bienvenidaMessage = () =>{
     return`
     <html>
-    <body style="text-align: center; font-family: Arial, Helvetica, sans-serif;">
+    <body style="text-align: center; font-family: Arial, Helvetica, sans-serif; margin-left: 15%; margin-right: 15%;">
     <div >
     <img src="https://i.postimg.cc/nzJt61dB/Logo.png" alt="Imagen" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
     </div>
@@ -25,4 +25,4 @@ function bienvenida(params) {
     `
 }
 
-module.export = bienvenida
+module.exports = bienvenidaMessage

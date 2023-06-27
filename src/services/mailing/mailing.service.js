@@ -1,7 +1,7 @@
 const transporter = require("../../utils/email")
-const bienvenida = require("../../utils/email/htmlMessages/bienvenida");
-const contestaronPregunta = require("../../utils/email/htmlMessages/contestaronPregunta")
-const creditoAbonado = require("../../utils/email/htmlMessages/creditoAbonado")
+const bienvenidaMessage = require("../../utils/email/htmlMessages/bienvenidaMessage");
+const contestaronPreguntaMessage = require("../../utils/email/htmlMessages/contestaronPreguntaMessage")
+const creditoAbonado = require("../../utils/email/htmlMessages/creditoAbonadoMessage")
 const ofertaSuperada = require("../../utils/email/htmlMessages/ofertaSuperada")
 const pagaAuto = require("../../utils/email/htmlMessages/pagaAuto")
 const elGanador = require("../../utils/email/htmlMessages/elGanador")
@@ -10,12 +10,12 @@ const elVendedor = require("../../utils/email/htmlMessages/elVendedor")
 
 //todos los Emails reciben el corre del usuario 
 function welcomeEmail({email}) {
-
+  
   const mailOptions = {
     from: process.env.GMAIL_ACCOUNT,
     to: email,
     subject: "AutoBid",
-    html: bienvenida(),
+    html: bienvenidaMessage(),
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -36,7 +36,7 @@ function answeredQuestionEmail({email}) {
     from: process.env.GMAIL_ACCOUNT, 
     to: email,
     subject: "AutoBid",
-    html: contestaronPregunta(),
+    html: contestaronPreguntaMessage(),
   };
   
   transporter.sendMail(mailOptions, (error, info) => {

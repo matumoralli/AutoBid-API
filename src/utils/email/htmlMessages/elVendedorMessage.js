@@ -1,9 +1,11 @@
-function elVendedor({name, email, num}) {
+function elVendedorMessage({name, email, num}) {
     return `
     <html>
-    <body style="text-align: center; margin: 3%; font-family: Arial, Helvetica, sans-serif;">
+    <body style="text-align: center; margin: 3%; font-family: Arial, Helvetica, sans-serif; margin-left: 12%; margin-right: 12%;">
     <div >
-    <img src="https://i.postimg.cc/mZyTDftj/Logo.png" alt="Imagen" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+        <a href="${process.env.INICIO_AUTOBID}" target="_blank">
+            <img src="https://i.postimg.cc/nzJt61dB/Logo.png" alt="Imagen" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+        </a>
     </div>
     <br/>
     <br/>
@@ -11,11 +13,11 @@ function elVendedor({name, email, num}) {
       
       <h2>Por favor contáctate con el comprador para continuar con la venta del vehículo. Esta es su información de contacto:</h2>
       
-      <h3 style="text-align: left;">Nombre: ${name}</h3>
+      <p style="text-align: left;">Nombre: <span style="font-size: larger;">${name}</span></p>
       
-      <h3 style="text-align: left;">Email: ${email}</h3>
+      <p style="text-align: left;">Email: <span style="font-size: larger;">${num}</span></p>
       
-      <h3 style="text-align: left;">Número de teléfono: ${num}</h3>
+      <p style="text-align: left;">Número de teléfono: <span style="font-size: larger;">${email}</span></p>
       
       <div style="text-align: left;">
         <h4>Desde el equipo de AutoBid queremos dejarte algunos consejos que te ayudaran a llevar a cabo una venta segura de tu vehículo.</h4>
@@ -49,10 +51,13 @@ function elVendedor({name, email, num}) {
             <br/>
             El día solicitado deberás de presentarte en el registro indicado para completar el trámite.
             </div>
+            <br/>
+            <br/>
+            <a style="font-size: 16px; font-weight: bold; text-decoration: none; border-radius: 5%; background-color: #ff1616; color: white; padding: 20px;" target="_blank" href=${process.env.INICIO_AUTOBID}>Ir a AutoBid</a>
       
-         
+         </body>
     </html>
     `
 }
 
-module.export = elVendedor
+module.exports = elVendedorMessage

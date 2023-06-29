@@ -1,11 +1,11 @@
 const transporter = require("../../utils/email")
 const bienvenidaMessage = require("../../utils/email/htmlMessages/bienvenidaMessage");
 const contestaronPreguntaMessage = require("../../utils/email/htmlMessages/contestaronPreguntaMessage")
-const creditoAbonado = require("../../utils/email/htmlMessages/creditoAbonadoMessage")
-const ofertaSuperada = require("../../utils/email/htmlMessages/ofertaSuperada")
-const pagaAuto = require("../../utils/email/htmlMessages/pagaAuto")
-const elGanador = require("../../utils/email/htmlMessages/elGanador")
-const elVendedor = require("../../utils/email/htmlMessages/elVendedor")
+const creditoAbonadoMessage = require("../../utils/email/htmlMessages/creditoAbonadoMessage")
+const ofertaSuperadaMessage = require("../../utils/email/htmlMessages/ofertaSuperadaMessage")
+const pagaAutoMessage = require("../../utils/email/htmlMessages/pagaAutoMessage")
+const elGanadorMessage = require("../../utils/email/htmlMessages/elGanadorMessage")
+const elVendedorMessage = require("../../utils/email/htmlMessages/elVendedorMessage")
 
 
 //todos los Emails reciben el corre del usuario 
@@ -55,7 +55,7 @@ function creditPurchasedEmail({email}) {
     from: process.env.GMAIL_ACCOUNT, 
     to: email,
     subject: "AutoBid",
-    html: creditoAbonado(),
+    html: creditoAbonadoMessage(),
   };
   
   transporter.sendMail(mailOptions, (error, info) => {
@@ -74,7 +74,7 @@ function offerExceededEmail({email}) {
     from: process.env.GMAIL_ACCOUNT, 
     to: email,
     subject: "AutoBid",
-    html: ofertaSuperada(),
+    html: ofertaSuperadaMessage(),
   };
   
   transporter.sendMail(mailOptions, (error, info) => {
@@ -93,7 +93,7 @@ function offerExceededEmail({email}) {
     from: process.env.GMAIL_ACCOUNT, 
     to: email,
     subject: "AutoBid",
-    html: pagaAuto(link),
+    html: pagaAutoMessage(link),
   };
   
   transporter.sendMail(mailOptions, (error, info) => {
@@ -112,7 +112,7 @@ function winnerEmail({sellerName, sellerNum, sellerEmail, email}) {
     from: process.env.GMAIL_ACCOUNT, 
     to: email,
     subject: "AutoBid",
-    html: elGanador({email:sellerEmail, num:sellerNum, name:sellerName}),
+    html: elGanadorMessage({email:sellerEmail, num:sellerNum, name:sellerName}),
   };
   
   transporter.sendMail(mailOptions, (error, info) => {
@@ -131,7 +131,7 @@ function auctioneerEmail({buyerName, buyerNum, buyerEmail, email}) {
     from: process.env.GMAIL_ACCOUNT, 
     to: email,
     subject: "AutoBid",
-    html: elVendedor({name:buyerName, num:buyerNum, email:buyerEmail}),
+    html: elVendedorMessage({name:buyerName, num:buyerNum, email:buyerEmail}),
   };
   
   transporter.sendMail(mailOptions, (error, info) => {

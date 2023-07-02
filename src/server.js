@@ -5,7 +5,6 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 
-
 const server = express();
 
 server.use(cookieParser());
@@ -17,12 +16,12 @@ server.use(fileUpload({
   tempFileDir: './src/uploads'
 }))
 
-server.use("/cars", require("./routes/carsRoutes"));
-server.use("/users", require("./routes/usersRoutes"));
-server.use("/auctions", require("./routes/auctionsRoutes"));
-server.use("/replies", require("./routes/repliesRoutes"));
-server.use("/comments", require("./routes/commentsRoutes"));
-server.use("/payment", require("./routes/paymentsRoutes"))
+server.use("/api/cars", require("./routes/carsRoutes"));
+server.use("/api/users", require("./routes/usersRoutes"));
+server.use("/api/auctions", require("./routes/auctionsRoutes"));
+server.use("/api/replies", require("./routes/repliesRoutes"));
+server.use("/api/comments", require("./routes/commentsRoutes"));
+server.use("/api/payment", require("./routes/paymentsRoutes"))
 
 server.use("*", (req, res) => {
   res.status(404).send({

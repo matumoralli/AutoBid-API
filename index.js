@@ -9,11 +9,10 @@ const {
   CarDetail,
   Payment,
   Credit,
-  PaymentCredit
+  PaymentCredit,
 } = require("./src/database/models");
 
 const PORT = 8000;
-
 
 //User 1 == N CarDetail
 User.hasMany(CarDetail);
@@ -35,9 +34,8 @@ User.hasMany(Comment);
 Comment.belongsTo(User);
 
 //CardDetails 1 == 1 Auction
-Auction.hasOne(CarDetail)
-CarDetail.belongsTo(Auction)
-
+Auction.hasOne(CarDetail);
+CarDetail.belongsTo(Auction);
 
 //Auctions 1 == N Comments
 Auction.hasMany(Comment);
@@ -54,21 +52,19 @@ Comment.hasMany(Reply);
 Reply.belongsTo(Comment);
 
 //Payment 1 == N User
-Payment.belongsTo(User, { as: 'buyer', foreignKey: 'buyerUserId' });
-Payment.belongsTo(User, { as: 'seller', foreignKey: 'sellerUserId' });
-User.hasMany(Payment)
+Payment.belongsTo(User, { as: "buyer", foreignKey: "buyerUserId" });
+Payment.belongsTo(User, { as: "seller", foreignKey: "sellerUserId" });
+User.hasMany(Payment);
 
 //Payment 1 == 1 CardDetails
-CarDetail.hasOne(Payment)
-Payment.belongsTo(CarDetail)
+CarDetail.hasOne(Payment);
+Payment.belongsTo(CarDetail);
 
 PaymentCredit.hasOne(User);
 User.belongsTo(PaymentCredit);
 
-
 conn.sync({ force: false }).then(() => {
-
-  server.listen(PORT, () => {
-    console.log("Server listening at", PORT);
-  });
+    server.listen(PORT, () => {
+      console.log("Server listening at", PORT);
+    });
 });

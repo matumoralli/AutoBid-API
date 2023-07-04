@@ -21,7 +21,8 @@ async function fetchCar() {
     const carDB = await CarDetail.findOne({
       where: { id: carId },
     });
-    if (!carDB) throw new Error("Could not find car in DB with given ID:", carId);
+    if (!carDB)
+      throw new Error("Could not find car in DB with given ID:", carId);
     return carDB;
   } catch (error) {
     console.log("Could not fetch car from DB", error.message);
@@ -51,13 +52,14 @@ async function createCarDetail(
   },
   { domain, inspection, image }
 ) {
-  const arrayHighlights = Array.isArray(highlights) ? highlights : [highlights]
-  const arrayEquipement = Array.isArray(equipement) ? equipement : [equipement]
-  const arrayModifications = Array.isArray(modifications) ? modifications : [modifications]
-  const arrayKnownFlaws = Array.isArray(knownFlaws) ? knownFlaws : [knownFlaws]
-  const arrayServices = Array.isArray(services) ? services : [services]
-  const arrayAddedItems = Array.isArray(addedItems) ? addedItems : [addedItems]
-
+  const arrayHighlights = Array.isArray(highlights) ? highlights : [highlights];
+  const arrayEquipement = Array.isArray(equipement) ? equipement : [equipement];
+  const arrayModifications = Array.isArray(modifications)
+    ? modifications
+    : [modifications];
+  const arrayKnownFlaws = Array.isArray(knownFlaws) ? knownFlaws : [knownFlaws];
+  const arrayServices = Array.isArray(services) ? services : [services];
+  const arrayAddedItems = Array.isArray(addedItems) ? addedItems : [addedItems];
 
   try {
     const userDB = await User.findOne({
@@ -88,15 +90,15 @@ async function createCarDetail(
     if (image !== null) {
       images = await uploadImage(image);
     }
-    const domainFileUrl = await uploadPDF(domain)
-    const inspectionFileUrl = await uploadPDF(inspection)
+    const domainFileUrl = await uploadPDF(domain);
+    const inspectionFileUrl = await uploadPDF(inspection);
 
     const newCarDetail = await CarDetail.create({
       brand,
       model,
       year,
       kilometers,
-      domain : domainFileUrl,
+      domain: domainFileUrl,
       owner,
       engine,
       transmission,
@@ -138,7 +140,10 @@ async function populateDB() {
 }
 
 async function createImage({ carId }, { image }) {
+  console.log("llegamos a createImage");
   try {
+    console.log("llegamos a createImage");
+    console.log(carId, image);
     const car = await CarDetail.findByPk(carId);
     if (car) {
       const urlNewImage = await uploadImage(image);

@@ -27,6 +27,7 @@ async function populateDB(req, res) {
 }
 
 async function postImage(req, res) {
+  console.log('este es req.params', req.params);
   const images = await carsServices.createImage(req.params, req.files);
   if (images) response(res, 201, images);
   else throw new ClientError("Error creating image", 400);

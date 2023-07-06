@@ -20,9 +20,8 @@ async function fetchUserAuctions(req) {
   const { userId } = req.params;
   console.log(userId);
   try {
-
     const userDB = await User.findByPk(userId, {
-      attributes:["id"],
+      attributes: ["id"],
       include: {
         model: Credit,
         attributes: ["id"],
@@ -34,11 +33,16 @@ async function fetchUserAuctions(req) {
       },
     });
 
-    const auctionsArray = [...userDB.Credits.map((credit) => credit.Auction.CarDetail)]
+    const auctionsArray = [
+      ...userDB.Credits.map((credit) => credit.Auction.CarDetail),
+    ];
 
     return auctionsArray;
   } catch (error) {
-    console.log("Could not fetch auctions where User has assigned credits:", error.message);
+    console.log(
+      "Could not fetch auctions where User has assigned credits:",
+      error.message
+    );
   }
 }
 
@@ -46,19 +50,31 @@ async function fetchOrCreate(req) {
   const jwt_decode = require("jwt-decode");
   const { authorization } = req.headers;
   const { email } = req.params;
-  const { name } = req.body;
+  const { name, userName, profilePicture } = req.body;
   const authorizationArray = jwt_decode(authorization).permissions;
   const check = authorizationArray.includes("update:users");
+  console.log("este es el check", check);
   if (check) {
     try {
-      const user = await User.findOrCreate({
-        where: { name: name, email: email },
+      const [user, created] = await User.findOrCreate({
+        where: {
+          name: name,
+          email: email,
+          userName: userName,
+          profilePicture: profilePicture,
+        },
         defaults: { isAdmin: true },
         include: {
           model: Credit,
           attributes: ["id", "AuctionId"],
         },
       });
+
+      if (!created){
+        await user.update({isAdmin: true})
+      }
+
+      console.log("este es el user", user);
       return user;
     } catch (error) {
       console.log("Could not fetch or create User:", error.message);
@@ -66,7 +82,12 @@ async function fetchOrCreate(req) {
   } else {
     try {
       const user = await User.findOrCreate({
-        where: { name: name, email: email },
+        where: {
+          name: name,
+          email: email,
+          userName: userName,
+          profilePicture: profilePicture,
+        },
         include: {
           model: Credit,
           attributes: ["id", "AuctionId"],

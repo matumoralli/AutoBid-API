@@ -16,7 +16,15 @@ module.exports = conn.define("User", {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    password: {
+    userName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    profilePicture:{
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    phoneNumber:{
       type: DataTypes.STRING,
       allowNull: true,
     },

@@ -139,6 +139,7 @@ async function populateDB() {
   }
 }
 
+//! 'image' can be an array of images, as long as they all have the same "image" key name.
 async function createImage({ carId }, { image }) {
   console.log("llegamos a createImage");
   try {

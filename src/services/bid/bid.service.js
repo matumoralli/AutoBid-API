@@ -59,4 +59,15 @@ async function postBid(req) {
   }
 }
 
-module.exports = { postBid };
+async function getBid(req) {
+  const bidId = req.params.bidId;
+  try {
+    return await Bid.findByPk(bidId, {
+      include: [{ model: User }],
+    });
+  } catch (error) {
+    console.log("Could not fetch Bid from DB");
+  }
+}
+
+module.exports = { postBid, getBid };

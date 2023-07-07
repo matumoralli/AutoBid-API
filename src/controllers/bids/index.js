@@ -1,6 +1,7 @@
 const { catchedAsync } = require("../../utils");
-const { postBid } = require('./bids.controllers')
+const { postBid, getBid } = require('./bids.controllers')
 
 module.exports = {
-  postBid: catchedAsync(postBid)
+  postBid: catchedAsync(postBid),
+  getBid: catchedAsync(getBid)
 }

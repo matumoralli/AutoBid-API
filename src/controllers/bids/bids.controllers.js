@@ -8,4 +8,10 @@ async function postBid(req, res){
   else throw new ClientError ("error creating your bid, try again.", 400)
 }
 
-module.exports = { postBid }
+async function getBid(req, res){
+  const bidDB = await bidsServices.get(req)
+  if(bidDB) return response(res, 200, bidDB)
+  else throw new ClientError ("Error fetching Bid with given ID", 400)
+}
+
+module.exports = { postBid, getBid }

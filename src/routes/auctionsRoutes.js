@@ -9,6 +9,7 @@ router.get("/", controllers.getAuctions);
 router.get("/:id", controllers.getAuction);
 router.put("/:id", controllers.putAuction);
 router.post("/bid/:userId", bids.postBid)
+router.get("/bid/:bidId", bids.getBid)
 router.post("/comment/:userId", comment.postComment)
 router.post("/", controllers.postAuction);
 

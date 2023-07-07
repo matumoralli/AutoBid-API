@@ -141,10 +141,7 @@ async function populateDB() {
 
 //! 'image' can be an array of images, as long as they all have the same "image" key name.
 async function createImage({ carId }, { image }) {
-  console.log("llegamos a createImage");
   try {
-    console.log("llegamos a createImage");
-    console.log(carId, image);
     const car = await CarDetail.findByPk(carId);
     if (car) {
       const urlNewImage = await uploadImage(image);

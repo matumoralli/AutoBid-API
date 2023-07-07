@@ -18,7 +18,6 @@ async function fetchUsers() {
 
 async function fetchUserAuctions(req) {
   const { userId } = req.params;
-  console.log(userId);
   try {
     const userDB = await User.findByPk(userId, {
       attributes: ["id"],
@@ -53,7 +52,6 @@ async function fetchOrCreate(req) {
   const { name, userName, profilePicture } = req.body;
   const authorizationArray = jwt_decode(authorization).permissions;
   const check = authorizationArray.includes("update:users");
-  console.log("este es el check", check);
   if (check) {
     try {
       const [user, created] = await User.findOrCreate({
@@ -73,8 +71,6 @@ async function fetchOrCreate(req) {
       if (!created){
         await user.update({isAdmin: true})
       }
-
-      console.log("este es el user", user);
       return user;
     } catch (error) {
       console.log("Could not fetch or create User:", error.message);
@@ -218,7 +214,6 @@ async function banUser(req) {
 
 async function populateDB() {
   try {
-    console.log("llegamos a populateDB");
     const usersArray = [];
     users.forEach((user) => {
       const { id, ...rest } = user;

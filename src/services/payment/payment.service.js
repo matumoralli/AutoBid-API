@@ -28,7 +28,6 @@ async function fechPayments(params) {
 }
 
 async function fechCreditsPayment() {
-  console.log("se entro al service");
   try {
     return await PaymentCredit.findAll({
       include: User,
@@ -50,7 +49,6 @@ async function createPayLink({ auctionId, buyerId }) {
     car.dataValues.id = null;
 
     const buyer = await User.findByPk(buyerId);
-    console.log(car.dataValues.images[0]);
     const BodyMercadoPago = {
       items: [
         {

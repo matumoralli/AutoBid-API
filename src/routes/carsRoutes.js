@@ -9,6 +9,8 @@ router.get("/car/:carId", controllers.getCars);
 
 router.post("/", controllers.postCar);
 
+router.put("/", controllers.updateCar);
+
 router.post("/populate", controllers.populateDB);
 
 router.post("/image/:carId", controllers.postImage);

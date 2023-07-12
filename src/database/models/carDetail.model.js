@@ -19,6 +19,10 @@ module.exports = conn.define("CarDetail", {
     type: INTEGER,
     allowNull: false,
   },
+  minPrice: {
+    type: INTEGER,
+    defaultValue: 0,
+  },
   kilometers: {
     type: INTEGER,
     allowNull: false,
@@ -91,7 +95,7 @@ module.exports = conn.define("CarDetail", {
   },
   images: {
     type: ARRAY(STRING),
-    allowNull: true,
+    allowNull: false,
     defaultValue: [],
   },
 });

@@ -1,7 +1,7 @@
-const { CarDetail, User } = require("../../database/models");
+const { CarDetail, User, Auction } = require("../../database/models");
+const fs = require("fs");
 const {
   uploadImage,
-  uploadMultipleImages,
   deleteImageByUrl,
   uploadPDF,
 } = require("../../utils/cloudinary");
@@ -9,7 +9,17 @@ const { cars } = require("../db.json");
 
 async function fetchCars() {
   try {
-    return await CarDetail.findAll();
+    return await CarDetail.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ["id", "email"],
+        },
+        {
+          model: Auction,
+        },
+      ],
+    });
   } catch (error) {
     console.log("Could not fetch cars from DB", error.message);
   }
@@ -29,11 +39,14 @@ async function fetchCar() {
   }
 }
 
-async function createCarDetail(
-  {
+async function createCarDetail(carDetailJSON, { domain, inspection, images }) {
+  console.log(carDetailJSON);
+  let carDetail = JSON.parse(carDetailJSON);
+  const {
     brand,
     model,
     year,
+    minPrice,
     kilometers,
     owner,
     engine,
@@ -47,11 +60,15 @@ async function createCarDetail(
     knownFlaws,
     services,
     addedItems,
-    images,
     email,
-  },
-  { domain, inspection, image }
-) {
+  } = carDetail;
+
+  // console.log(req.body);
+
+  // const { images, domain, inspection } = formData;
+
+  console.log("images", images, "domain", domain, "inspection", inspection);
+
   const arrayHighlights = Array.isArray(highlights) ? highlights : [highlights];
   const arrayEquipement = Array.isArray(equipement) ? equipement : [equipement];
   const arrayModifications = Array.isArray(modifications)
@@ -87,9 +104,7 @@ async function createCarDetail(
       throw new Error("There is already a car in DB with given details");
     }
 
-    if (image !== null) {
-      images = await uploadImage(image);
-    }
+    const uploadedImages = await uploadImage(images);
     const domainFileUrl = await uploadPDF(domain);
     const inspectionFileUrl = await uploadPDF(inspection);
 
@@ -97,6 +112,7 @@ async function createCarDetail(
       brand,
       model,
       year,
+      minPrice,
       kilometers,
       domain: domainFileUrl,
       owner,
@@ -112,13 +128,124 @@ async function createCarDetail(
       services: arrayServices,
       addedItems: arrayAddedItems,
       inspection: inspectionFileUrl,
-      images,
+      images: uploadedImages,
     });
 
     return newCarDetail.setUser(userDB.dataValues.id);
   } catch (error) {
     console.log(
       "There has been an error in services trying to create a car:",
+      error.message
+    );
+  }
+}
+
+async function updateCarDetail(carDetailJSON, files = null) {
+  console.log(carDetailJSON);
+  let carDetail = JSON.parse(carDetailJSON);
+  const {
+    brand,
+    model,
+    year,
+    minPrice,
+    kilometers,
+    owner,
+    engine,
+    transmission,
+    driveTrain,
+    bodyType,
+    color,
+    highlights,
+    equipement,
+    modifications,
+    knownFlaws,
+    services,
+    addedItems,
+    UserId,
+    inspection: inspectionURL,
+    domain: domainURL,
+    images: imagesURL,
+    id: carDetailId,
+  } = carDetail;
+
+  const arrayHighlights = Array.isArray(highlights) ? highlights : [highlights];
+  const arrayEquipement = Array.isArray(equipement) ? equipement : [equipement];
+  const arrayModifications = Array.isArray(modifications)
+    ? modifications
+    : [modifications];
+  const arrayKnownFlaws = Array.isArray(knownFlaws) ? knownFlaws : [knownFlaws];
+  const arrayServices = Array.isArray(services) ? services : [services];
+  const arrayAddedItems = Array.isArray(addedItems) ? addedItems : [addedItems];
+
+  try {
+    const userDB = await User.findOne({
+      where: { id: UserId },
+    });
+
+    if (!userDB) {
+      throw new Error("There is no User in DB with given email:", email);
+    }
+
+    // console.log("imagesURL", imagesURL);
+    
+    const imagesURLclean = imagesURL.filter(
+      (image) => typeof image === "string"
+    );
+
+    // console.log("imagesURLclean", imagesURLclean);
+
+    const uploadedImages = files?.images && (await uploadImage(files.images));
+
+    // console.log("uploadedImages", uploadedImages);
+
+    const newImages = uploadedImages
+      ? [...imagesURLclean, ...uploadedImages]
+      : imagesURLclean;
+
+    // console.log("newImages", newImages);
+
+    const domainFileUrl = files?.domain
+      ? await uploadPDF(files.domain)
+      : domainURL;
+
+    const inspectionFileUrl = files?.inspection
+      ? await uploadPDF(files.inspection)
+      : inspectionURL;
+
+    const updatedCarDetail = await CarDetail.update(
+      {
+        brand,
+        model,
+        year,
+        minPrice,
+        kilometers,
+        domain: domainFileUrl,
+        owner,
+        engine,
+        transmission,
+        driveTrain,
+        bodyType,
+        color,
+        highlights: arrayHighlights,
+        equipement: arrayEquipement,
+        modifications: arrayModifications,
+        knownFlaws: arrayKnownFlaws,
+        services: arrayServices,
+        addedItems: arrayAddedItems,
+        inspection: inspectionFileUrl,
+        images: newImages,
+      },
+      {
+        where: {
+          id: carDetailId,
+        },
+      }
+    );
+
+    return updatedCarDetail;
+  } catch (error) {
+    console.log(
+      "There has been an error in services trying to update a car:",
       error.message
     );
   }
@@ -175,6 +302,7 @@ module.exports = {
   fetchCars,
   fetchCar,
   createCarDetail,
+  updateCarDetail,
   populateDB,
   createImage,
   removeImage,

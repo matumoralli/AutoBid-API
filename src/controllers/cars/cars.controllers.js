@@ -15,9 +15,15 @@ async function getCar(req, res) {
 }
 
 async function postCar(req, res) {
-  const newCar = await carsServices.create(req.body, req.files);
+  const newCar = await carsServices.create(req);
   if (newCar) response(res, 201, newCar);
   else throw new ClientError("Error creating car", 400);
+}
+
+async function updateCar(req, res) {
+  const updatedCar = await carsServices.update(req);
+  if (updatedCar) response(res, 200, updatedCar);
+  else throw new ClientError("Error updating car", 400);
 }
 
 async function populateDB(req, res) {
@@ -38,4 +44,4 @@ async function deleteImage(req, res) {
   else throw new ClientError("Error deleting image");
 }
 
-module.exports = { getCars, getCar, postCar, populateDB, postImage, deleteImage };
+module.exports = { getCars, getCar, postCar, updateCar, populateDB, postImage, deleteImage };

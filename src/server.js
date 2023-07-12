@@ -4,6 +4,8 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
+// var multer = require('multer');
+// var upload = multer();
 
 const {
   Auction,
@@ -29,6 +31,9 @@ server.use(
     tempFileDir: "./src/uploads",
   })
 );
+// // for parsing multipart/form-data
+// server.use(upload.array()); 
+// server.use(express.static('public'));
 
 server.use("/api/cars", require("./routes/carsRoutes"));
 server.use("/api/users", require("./routes/usersRoutes"));

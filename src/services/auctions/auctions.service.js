@@ -52,7 +52,7 @@ async function fetchAuction(req) {
         { model: User },
         { model: CarDetail },
         { model: Bid, include: { model: User } },
-        { model: Comment, include: [{ model: User }, {model: Reply}] },
+        { model: Comment, include: [{ model: User }, { model: Reply }] },
       ],
     });
   } catch (error) {
@@ -77,17 +77,13 @@ async function createAuction({
   sellerType,
   customEnd,
 }) {
+
   try {
     let userDB = await User.findByPk(userId);
 
     let carDetailDB = await CarDetail.findByPk(carDetailId);
 
-    let checkExistingAuctionDB = await Auction.findOne({
-      where: { UserId: userId },
-    });
-
-    const check =
-      (userDB && carDetailDB) !== null && checkExistingAuctionDB === null;
+    const check = (userDB && carDetailDB) !== null;
 
     if (check) {
       const newAuction = await Auction.create({ minPrice, sellerType });
@@ -96,12 +92,15 @@ async function createAuction({
       newAuction.setCarDetail(carDetailDB.dataValues.id);
 
       const startAuction = new Date(newAuction.createdAt); //start of auction
+   
       const endAuction = startAuction.setDate(startAuction.getDate() + 7); //get end of auction
       customEnd
         ? (newAuction.endTime = customEnd)
         : (newAuction.endTime = endAuction); //add end of auction (custom, or 7 days later)
       //saving changes
+
       await newAuction.save();
+
       return newAuction;
     }
   } catch (error) {
